@@ -5,14 +5,15 @@
       </div>
      <div class="current-films-row">
          <Item
-            v-for="(item, index) in getCurrentFilms"
+            v-for="(item,index) in getCurrentFilms"
             :key="item.id"
             class="item"
-            :indexFilm="index"
             :item="item"
+            :indexFilm="index"
+            :allFilms="getCurrentFilms"
          />
          <router-link tag="div" to="/films/film">
-            <button @click="addFilm('carrent')" class="btn">Добавить фильм</button>
+            <button class="btn">Добавить фильм</button>
          </router-link>
       </div> 
    </div>
@@ -23,21 +24,24 @@
 <script>
 import Item from "@/components/films/FilmItem";
 
-import { mapGetters, mapActions } from "vuex";
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
   components: {
-    Item,
+    Item
   },
-  computed: mapGetters(["getCurrentFilms"]),
-  methods: {
-    ...mapActions(["addNewFilm", "addChangePage"]),
-    addFilm(typeFilms) {
-      this.$router.push({name:'Film', params:{typeFilm:typeFilms}});
-      this.addNewFilm(typeFilms);
-      this.addChangePage();
-    },
+  computed: {
+     ...mapGetters(['getCurrentFilms'])
   },
+  methods:{
+     ...mapActions(['downloadFilms']),
+     getData(){
+        this.downloadFilms('films/currentFilms')
+     }
+  },
+  mounted(){
+     this.getData();
+  }
 };
 </script>
 

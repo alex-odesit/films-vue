@@ -1,11 +1,15 @@
 <template>
    <div>
       <div class="wrapper">
-         <div @click="removeFilm(indexFilm)" class="delete-film"></div>
-         <router-link tag="div" to='/films/film'>
-            <div class="img-wrapper" @click="clickFilm(item.id)">
-               <img v-show="item.showPreview" :src="item.imagePreview" alt="">
-            </div>
+         <div @click="removeFilm(indexFilm)" class="delete-film">
+
+         </div>
+         <router-link
+            tag="div"
+            class="img-wrapper"
+            :to="{path: `films/currentFilm/${indexFilm}`, params: {id: indexFilm, date: 'allFilms'}}"
+         >
+            <img v-show="item.showPreview" :src="item.imagePreview" alt="">
          </router-link>
       </div>
       <div class="subtitle-wrapper">
@@ -19,21 +23,11 @@
 
 <script>
 
-import { mapActions } from 'vuex';
-
 export default {
    props:{
       item: Object,
-      indexFilm: Number
-   },
-   methods: {
-      ...mapActions(['changePage','remove']),
-      clickFilm(id){
-         this.changePage(id);
-      },
-      removeFilm(index){
-         this.remove(index);
-      },
+      indexFilm: Number,
+      allFilms: Array
    },
 }
 </script>

@@ -1,11 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-// import Films from '../views/Films'
-
-
-// import store from '../store/index'
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -28,8 +23,7 @@ const routes = [
     props: true
   },
   {
-    path: "/films/film",
-    name: "Film",
+    path: "/films/currentFilm/:id",
     component: () => import('@/views/FilmEdit'),
     props: true
   },
@@ -40,13 +34,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-
-// router.afterEach((to, from) => {
-//   if (to.name === 'Film' && from.name === 'Films') {
-//     store.dispatch('addNewFilm', Films.data().films);
-//     store.dispatch('addChangePage');
-//     console.log(Films.data().films);
-//   };
-// })
 
 export default router;
