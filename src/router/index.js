@@ -1,23 +1,37 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+
+// import Films from '../views/Films'
+
+
+// import store from '../store/index'
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "Statistic",
+    component: () => import("../views/Statistic.vue"),
+    props: true
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    path: "/banners",
+    name: "Banners",
+    component: () => import('@/views/Banners'),
+    props: true
+  },
+  {
+    path: "/films",
+    name: "Films",
+    component: () => import('@/views/Films'),
+    props: true
+  },
+  {
+    path: "/films/film",
+    name: "Film",
+    component: () => import('@/views/FilmEdit'),
+    props: true
   },
 ];
 
@@ -26,5 +40,13 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+// router.afterEach((to, from) => {
+//   if (to.name === 'Film' && from.name === 'Films') {
+//     store.dispatch('addNewFilm', Films.data().films);
+//     store.dispatch('addChangePage');
+//     console.log(Films.data().films);
+//   };
+// })
 
 export default router;

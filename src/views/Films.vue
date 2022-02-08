@@ -1,0 +1,69 @@
+<template>
+   <div class="wrapper-films">
+      <div class="titles">
+         Список фильмов текущих
+      </div>
+     <div class="current-films-row">
+         <Item
+            v-for="(item, index) in getCurrentFilms"
+            :key="item.id"
+            class="item"
+            :indexFilm="index"
+            :item="item"
+         />
+         <router-link tag="div" to="/films/film">
+            <button @click="addFilm('carrent')" class="btn">Добавить фильм</button>
+         </router-link>
+      </div> 
+   </div>
+  
+</template>
+
+
+<script>
+import Item from "@/components/films/FilmItem";
+
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  components: {
+    Item,
+  },
+  computed: mapGetters(["getCurrentFilms"]),
+  methods: {
+    ...mapActions(["addNewFilm", "addChangePage"]),
+    addFilm(typeFilms) {
+      this.$router.push({name:'Film', params:{typeFilm:typeFilms}});
+      this.addNewFilm(typeFilms);
+      this.addChangePage();
+    },
+  },
+};
+</script>
+
+<style scoped lang="scss">
+.current-films-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.item {
+  width: 200px;
+  height: 230px;
+  margin-right: 50px;
+}
+.btn {
+  height: 40px;
+  background: rgb(190, 179, 179);
+}
+
+.wrapper-films {
+   padding: 50px 100px 0px 100px;
+}
+.titles {
+   text-align: center;
+   font-size: 30px;
+   font-weight: 700;
+   margin-bottom: 50px;
+}
+</style>

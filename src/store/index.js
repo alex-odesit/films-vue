@@ -1,11 +1,18 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import films from "./modules/films"
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+ const store = new Vuex.Store({
   state: {},
   mutations: {},
   actions: {},
-  modules: {},
+  modules: {
+    films
+  }
 });
+
+// store.dispatch('initFilmsStore');
+
+export default store;
