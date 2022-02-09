@@ -1,7 +1,7 @@
 
 const list = [
    {
-      id: 1,
+      id: 0,
       nameFilm: 'Первый фильм',
       description: 'Текст первого фильма',
       file: {},
@@ -28,7 +28,7 @@ const list = [
       urlMain: ''
    },
    {
-      id: 2,
+      id: 1,
       nameFilm: 'Второй фильм',
       description: 'Текст второго фильма',
       file: {},

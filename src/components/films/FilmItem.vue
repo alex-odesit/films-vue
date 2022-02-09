@@ -23,11 +23,19 @@
 
 <script>
 
+import { mapActions } from 'vuex'
+
 export default {
    props:{
       item: Object,
       indexFilm: Number
    },
+   methods:{
+      ...mapActions(['deleteFilmItem']),
+      removeFilm(index){
+         this.deleteFilmItem(index);
+      }
+   }
 }
 </script>
 

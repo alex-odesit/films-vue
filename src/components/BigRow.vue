@@ -51,7 +51,8 @@ export default {
     isText: Boolean,
     isUrl: Boolean,
     download: Boolean,
-    databaseLink: String
+    databaseLink: String,
+    index:String
   },
   methods: {
     handleFileUpload(event, item) {
@@ -86,7 +87,7 @@ export default {
       this.lists.push(newObj);
     },
     async getContent() {
-      if(this.download){
+      if(this.download && this.index !== 'new'){
         const test  = await DB.getData(this.databaseLink);
         this.$emit('changeList',test)
       }

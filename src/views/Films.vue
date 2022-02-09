@@ -11,7 +11,7 @@
             :item="item"
             :indexFilm="index"
          />
-         <router-link tag="div" to="/films/film">
+         <router-link tag="div" to="/films/currentFilm/new">
             <button class="btn">Добавить фильм</button>
          </router-link>
       </div> 
