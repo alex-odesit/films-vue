@@ -94,19 +94,22 @@
          </button>
       </router-link>
       <template v-if="howButton">
-         <button @click="resaveData">
+         <button @click="resaveDataClick" >
             Вернуть базовою версию
          </button>
       </template>
       <template v-else>
-         <router-link tag="div" to='/films' >
-            <button>
-               Не добавлять новый фильм
-            </button>
-         </router-link>
+          <button @click="resaveDataClick">
+              Не добавлять новый фильм
+          </button>
       </template>
-      
    </div>
+   <popap 
+      @deleteData="resaveData"
+      @noDeleteData="resaveDataClick"
+      class="popap"
+      :class="isActivePopap"
+      />
   </div>
 </template>
 
@@ -114,6 +117,7 @@
 import { mapActions, mapGetters } from "vuex";
 import oneImage from "../components/addImageOne.vue";
 import BigRow from "@/components/BigRow";
+import popap from "@/components/films/filmPopap"
 
 import DB from '../../firebase/index';
 
@@ -121,6 +125,7 @@ export default {
   components: {
     oneImage,
     BigRow,
+    popap
   },
   data: () => ({
     film: {
@@ -150,6 +155,7 @@ export default {
       seoDescription: "",
       urlMain: "",
     },
+    isPopap: false
   }),
   computed: {
     index() {
@@ -159,6 +165,12 @@ export default {
        return this.index !== 'new';
     },
     ...mapGetters(["getCurrentFilms"]),
+    isActivePopap(){
+      return  {
+        'acive-popap': this.isPopap
+      }
+      
+    }
   },
   methods: {
     ...mapActions(["downloadFilms","saveFilm","newFilm"]),
@@ -194,11 +206,15 @@ export default {
          if(databaseFilm){
             this.film = databaseFilm;
          }else{
-            console.log('Доделать');
+            this.$router.push('/films');
          }
+         this.isPopap = false;
        }catch(err){
          console.log(err);
        }
+    },
+    resaveDataClick(){
+      this.isPopap = !this.isPopap?true:false;
     }
   },
    mounted() {
@@ -288,5 +304,16 @@ textarea{
          margin-right: 40px;
       }
    }
+}
+.popap{
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: -100%;
+   z-index: 100;
+}
+.acive-popap{
+  left: 0;
 }
 </style>
