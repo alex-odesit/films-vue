@@ -42,11 +42,16 @@
 
 
 <script>
+
+import DB from '../../firebase/index'
+
 export default {
   props: {
     lists: Array,
     isText: Boolean,
-    isUrl: Boolean
+    isUrl: Boolean,
+    download: Boolean,
+    databaseLink: String
   },
   methods: {
     handleFileUpload(event, item) {
@@ -78,11 +83,18 @@ export default {
         URL: "",
         text: "",
       };
-
       this.lists.push(newObj);
     },
-    sendData() {},
+    async getContent() {
+      if(this.download){
+        const test  = await DB.getData(this.databaseLink);
+        this.$emit('changeList',test)
+      }
+    },
   },
+  mounted(){
+    this.getContent();
+  }
 };
 </script>
 

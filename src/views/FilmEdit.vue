@@ -4,22 +4,176 @@
          <span>
              Название фильма
          </span>
-         <input type="text" placeholder="Название фильма">
-         {{date}}
+         <input type="text" placeholder="Название фильма" v-model="film.nameFilm">
+      </div>
+      <div class="wrapper-input">
+         <span>
+             Описание
+         </span>
+         <textarea v-model="film.description" placeholder="Текст"></textarea>
+      </div>
+      <div class="wrapper-input">
+         <span>
+             Главная картинка
+         </span>
+         <oneImage
+            @changeimagePreview='changeimagePreview' 
+            @changeShowPreview='changeShowPreviewTrue' 
+            @changeFile='changeFile' 
+            :imagePreview='film.imagePreview' 
+            :showPreview='film.showPreview' 
+            :file='film.file'
+            :databaselink="`films/currentFilms/${index}/imagePreview`"
+            :save='false'/>
+      </div>
+      <span class="subtitle">
+         Галерея картинок
+      </span>
+      <div class="wrapper-input">
+         <span>
+             Размер: 1000x190
+         </span>
+         <BigRow 
+            :isText="false" 
+            :isUrl="false" 
+            :download="true" 
+            :lists="film.list"
+            :databaseLink="`films/currentFilms/${index}/list`"
+            @changeList="changeList"
+         />
+      </div>
+      <div class="wrapper-input">
+         <span>
+             Ссылка на трейлер
+         </span>
+         <input type="text" placeholder="Ссылка на видео в youtube" v-model="film.linkTreyler">
+      </div>
+      <div class="input-wrapper input-wrapper_checkBox">
+         <span>
+            Тип кино
+         </span>
+         <div class="checkBox-wrapper">
+            <div class="input-item">
+               <span>
+                  3D
+               </span>
+               <input type="checkbox" v-model="film.threeD">
+            </div>
+            <div class="input-item">
+               <span>
+                  2D
+               </span>
+               <input type="checkbox" v-model="film.twooD">
+            </div>
+            <div class="input-item">
+               <span>
+                  IMAX
+               </span>
+               <input type="checkbox" v-model="film.imax">
+            </div>
+         </div>
+      </div>
+      <div class="seo-wrapper">
+         <span class="seo-wrapper-title">
+            SEO блок
+         </span>
+         <div class="seo-input-wrapper">
+            <div class="input-wrapper input-wrapper_URL">
+               <span>
+                  URL:
+               </span>
+               <input v-model="film.url" placeholder="URL"/>
+            </div>
+            <div class="input-wrapper input-wrapper_title">
+               <span>
+                  Title:
+               </span>
+               <input v-model="film.title" placeholder="Title"/>
+            </div>
+            <div class="input-wrapper input-wrapper_words">
+               <span>
+                  Keywords:
+               </span>
+               <input v-model="film.keywords" placeholder="Keywords"/>
+            </div>
+            <div class="input-wrapper input-wrapper_seo-description">
+               <span>
+                  Description:
+               </span>
+               <textarea placeholder="seoDescription" v-model="film.seoDescription"></textarea>
+            </div>
+         </div>
       </div>
    </div>
 </template>
 
 <script>
+
+import { mapActions, mapGetters} from 'vuex'
+import oneImage from '../components/addImageOne.vue';
+import BigRow from "@/components/BigRow";
+
 export default {
-   props:['date'],
+   components:{
+      oneImage,
+      BigRow
+   },
+   data: () => ({
+      film:{
+         id: 1,
+         nameFilm: 'новый фильм',
+         description: '',
+         file: {},
+         showPreview: false,
+         imagePreview: "",
+         list: [
+            {
+               id: 1,
+               file: "",
+               showPreview: false,
+               imagePreview: "",
+               text: "",
+               url: "",
+            },
+         ],
+         linkTreyler: '',
+         threeD: false,
+         twooD: false,
+         imax: false,
+         url: '',
+         title: '',
+         keywords: '',
+         seoDescription: '',
+         urlMain: ''
+      }  
+   }),
    computed:{
       index(){
          return this.$route.params['id']
+      },
+      ...mapGetters(['getCurrentFilms'])
+   },
+   methods:{
+      ...mapActions(['downloadFilms']),
+      getData(){
+        this.downloadFilms('films/currentFilms');
+        this.film = this.getCurrentFilms[this.index];
+      },
+      changeFile(file){
+         this.film.file = file;
+      },
+      changeShowPreviewTrue(bool){
+         this.film.showPreview = bool;
+      },
+      changeimagePreview(imagePreview){
+         this.film.imagePreview = imagePreview;
+      },
+      changeList(list){
+         this.film.list = list;
       }
    },
    mounted(){
-      console.log(this.$route);
+      this.getData();
    }
 }
 

@@ -25,7 +25,6 @@ const routes = [
   {
     path: "/films/currentFilm/:id",
     component: () => import('@/views/FilmEdit'),
-    props: true
   },
 ];
 

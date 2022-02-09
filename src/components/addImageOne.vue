@@ -6,13 +6,14 @@
       </div>
       <div class="buttons">
          <button class="add-photo">
-            Добавить<input
-            class="input"
-            type="file"
-            id="file"
-            ref="file"
-            accept="image/*"
-            @change="saved"
+            Добавить
+            <input
+               class="input"
+               type="file"
+               id="file"
+               ref="file"
+               accept="image/*"
+               @change="saved"
             />
          </button>
          <button @click="removePhoto">Удалить</button>
@@ -36,12 +37,12 @@ export default {
          "load",
          async () => {
             this.$emit('changeShowPreview',true)
-            // console.log(this.showPreview);
             let imagePreview = reader.result;
             this.$emit('changeimagePreview',imagePreview)
             try {
                const url = await DB.sendImg(this.storageLink, file);
                await DB.sendData(this.databaselink, { url });
+               console.log('65464');
             } catch (error) {
                console.log(error);
             }
@@ -55,7 +56,7 @@ export default {
          }
       },
       handleFileUploadNO(){
-          let file = this.$refs.file.files[0];
+         let file = this.$refs.file.files[0];
          this.$emit('changeFile',file)
          let reader = new FileReader();
          reader.addEventListener(
@@ -80,6 +81,7 @@ export default {
          if(this.save){
             await DB.deleteStorageItem(this.storageLink);
             await DB.removeData(this.databaselink);
+            console.log('644');
          }
       },
       async getContent() {
@@ -94,8 +96,8 @@ export default {
          this.$emit('changeShowPreview', showPreview);
     },
    },
-   async mounted() {
-      await this.getContent();
+   mounted() {
+      this.getContent();
    },
    computed:{
       saved(){

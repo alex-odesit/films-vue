@@ -7,7 +7,7 @@
          <router-link
             tag="div"
             class="img-wrapper"
-            :to="{path: `films/currentFilm/${indexFilm}`, params: {id: indexFilm, date: 'allFilms'}}"
+            :to="{path: `films/currentFilm/${indexFilm}`}"
          >
             <img v-show="item.showPreview" :src="item.imagePreview" alt="">
          </router-link>
@@ -26,8 +26,7 @@
 export default {
    props:{
       item: Object,
-      indexFilm: Number,
-      allFilms: Array
+      indexFilm: Number
    },
 }
 </script>

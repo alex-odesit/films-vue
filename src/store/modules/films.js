@@ -4,13 +4,15 @@ import DB from '../../../firebase/index'
 export default{
    mutations: {
       async downloadFilmsType(state, type){
-         let test = await DB.getData(type);
-         state.currentFilms = test;
+         try{
+            state.currentFilms = await DB.getData(type);
+         } catch(err){
+            console.log(err);
+         }
       }
    },
    state: {
-      currentFilms: list.list,
-      currentPage: 1
+      currentFilms: list.list
    },
    getters:{
       getCurrentFilms(state){
@@ -19,7 +21,7 @@ export default{
    },
    actions: {
       downloadFilms(context,type){
-         context.commit('downloadFilmsType', type);
+        context.commit('downloadFilmsType', type);
       }
    },
 }

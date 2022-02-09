@@ -10,7 +10,6 @@
             class="item"
             :item="item"
             :indexFilm="index"
-            :allFilms="getCurrentFilms"
          />
          <router-link tag="div" to="/films/film">
             <button class="btn">Добавить фильм</button>

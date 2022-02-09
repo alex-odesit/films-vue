@@ -7,8 +7,6 @@ const list = [
       file: {},
       showPreview: false,
       imagePreview: "",
-      storageLink: 'images/film/mainImg',
-      databaselink: 'films/currentFilms/',
       list: [
          {
             id: 1,
@@ -36,8 +34,6 @@ const list = [
       file: {},
       showPreview: false,
       imagePreview: "",
-      storageLink: 'images/film/mainImg',
-      databaselink: 'films/currentFilms/',
       list: [
          {
             id: 1,
