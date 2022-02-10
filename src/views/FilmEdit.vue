@@ -88,11 +88,9 @@
       </div>
     </div>
     <div class="buttons-wrapper">
-      <router-link tag="div" to='/films' >
-         <button @click="saveData">
-            Сохранить
-         </button>
-      </router-link>
+        <button @click="saveData">
+          Сохранить <load v-if="isSave" class="load"/>
+        </button>
       <template v-if="howButton">
          <button @click="resaveDataClick" >
             Вернуть базовою версию
@@ -121,11 +119,14 @@ import popap from "@/components/films/filmPopap"
 
 import DB from '../../firebase/index';
 
+import load from '../components/Load.vue'
+
 export default {
   components: {
     oneImage,
     BigRow,
-    popap
+    popap,
+    load
   },
   data: () => ({
     film: {
@@ -155,7 +156,8 @@ export default {
       seoDescription: "",
       urlMain: "",
     },
-    isPopap: false
+    isPopap: false,
+    isSave: false
   }),
   computed: {
     index() {
@@ -202,6 +204,7 @@ export default {
       this.film.list = list;
     },
     saveData(){
+      this.isSave = true;
       if(this.index !== 'new'){
          this.saveFilm([this.index,this.film,this.type]);
       }else{
@@ -324,5 +327,13 @@ textarea{
 }
 .acive-popap{
   left: 0;
+}
+button{
+  position: relative;
+}
+.load{
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 </style>

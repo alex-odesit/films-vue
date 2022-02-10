@@ -15,7 +15,10 @@
             <option value="7">7c</option>
           </select>
         </div>
-        <button @click="sendDataFirst">Сохранить</button>
+        <div class="load-wrapper">
+          <button @click="sendDataFirst">Сохранить</button>
+          <load v-if="firstLoad" class="load"/>
+        </div>
       </div>
     </div>
 
@@ -36,7 +39,10 @@
               <option value="7">7c</option>
             </select>
           </div>
-          <button @click="sendDataSecond">Сохранить</button>
+          <div class="load-wrapper">
+            <button @click="sendDataSecond">Сохранить</button>
+            <load v-if="secondLoad" class="load"/>
+          </div>
         </div>
       </div>
     </div>
@@ -48,6 +54,7 @@
 <script>
 import BigRow from "@/components/BigRow";
 import Back from "@/components/baner/Back";
+import load from "../components/Load.vue"
 
 import DB from "./../../firebase/index";
 
@@ -56,6 +63,7 @@ export default {
   components: {
     BigRow,
     Back,
+    load
   },
   data: () => ({
     list: [
@@ -92,13 +100,12 @@ export default {
       },
     ],
     selectFirst: "5",
-    selectSecond: "5"
+    selectSecond: "5",
+    firstLoad: false,
+    secondLoad:false
   }),
   methods: {
     async sendData(array,url,link,speedLink, speed) {
-      // const test = await DB.getImgStorage('images/banners/first/0');
-      // console.log(test);
-      // console.log(this.list[0].file);
       await (await DB.deleteStorage(`${url}`));
       const newList = [];
       for (const index in array) {
@@ -110,13 +117,19 @@ export default {
       await DB.sendData(speedLink, {speed: speed});
       return newList;
     },
-
-
     async sendDataFirst(){
-       this.list = await this.sendData(this.list,'images/banners/first','banners/first','banners/firstSpeed',this.selectFirst)
+      this.firstLoad = true;
+        await this.sendData(this.list,'images/banners/first','banners/first','banners/firstSpeed',this.selectFirst).then((object)=>{
+          this.list = object;
+          this.firstLoad = false;
+       })
     },
     async sendDataSecond(){
-       this.listNews = await this.sendData(this.listNews,'images/banners/second','banners/second','banners/secondSpeed',this.selectSecond)
+       this.secondLoad = true;
+       await this.sendData(this.listNews,'images/banners/second','banners/second','banners/secondSpeed',this.selectSecond).then((object) =>{
+         this.listNews = object;
+         this.secondLoad = false;
+       })
     },
     async getContent() {
       try {
@@ -261,5 +274,12 @@ h1 {
 }
 .speed p {
   margin: 0px 50px 0px 50px;
+}
+.load{
+  /* margin-top: 10px;
+  margin-left: 10px; */
+}
+.load-wrapper{
+  display: flex;
 }
 </style>

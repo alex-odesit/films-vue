@@ -2,6 +2,8 @@ import list from './filmArrayCurrent'
 import listFuture from './filmArrayFuture'
 import DB from '../../../firebase/index'
 
+import router from '../../router/index'
+
 export default{
    mutations: {
       async downloadFilmsType(state, type){
@@ -23,7 +25,9 @@ export default{
       },
       async changeFilm(state, array){
          state.currentFilms[array[0]] = array[1];
-         await DB.sendData(`films/${array[2]}s/${array[0]}`, state.currentFilms[array[0]]);
+         await DB.sendData(`films/${array[2]}s/${array[0]}`, state.currentFilms[array[0]]).then(() =>{
+            router.push({ path: '/films' });
+         });
       },
       async addNewFilm(state, array){
          let newFilm = array[0];
@@ -32,13 +36,17 @@ export default{
                newFilm.id = String(state.currentFilms[state.currentFilms.length - 1].id + 1);
             } else newFilm.id = String(state.currentFilms.length);
             state.currentFilms.push(newFilm);
-            await DB.sendData('films/currentFilms', state.currentFilms);
+            await DB.sendData('films/currentFilms', state.currentFilms).then(() =>{
+               router.push({ path: '/films' });
+            })
          }else{
             if (state.futureFilms.length !== 0) {
                newFilm.id = String(state.futureFilms[state.futureFilms.length - 1].id + 1);
             } else newFilm.id = String(state.futureFilms.length);
             state.futureFilms.push(newFilm);
-            await DB.sendData('films/futureFilms', state.futureFilms);
+            await DB.sendData('films/futureFilms', state.futureFilms).then(() => {
+               router.push({ path: '/films' });
+            })
          }
          
          
@@ -51,7 +59,6 @@ export default{
             state.futureFilms.splice(array[0], 1);
             await DB.sendData('films/futureFilms', state.futureFilms);
          }
-         
       }
    },
    state: {

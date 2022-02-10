@@ -14,22 +14,34 @@
                ref="file"
                accept="image/*"
                @change="saved"
+               
             />
+            <load v-if="isAddLoad" class="load"/>
          </button>
-         <button @click="removePhoto">Удалить</button>
+         <button @click="removePhoto">Удалить <load v-if="isDeleteLoad" class="load"/></button>
       </div>
       </div>
    </div>
 </template>
 
 <script>
+
 import DB from '../../firebase/index'
+import load from '../components/Load.vue'
 
 export default {
    name:'ImgOne',
+   components:{
+      load
+   },
+   data:() =>({
+      isAddLoad: false,
+      isDeleteLoad: false,
+   }),
    props:  ['imagePreview','showPreview','file','download','storageLink','databaselink','save'],
    methods:{
       handleFileUpload() {
+         this.isAddLoad = true;
          let file = this.$refs.file.files[0];
          this.$emit('changeFile',file)
          let reader = new FileReader();
@@ -41,7 +53,9 @@ export default {
             this.$emit('changeimagePreview',imagePreview)
             try {
                const url = await DB.sendImg(this.storageLink, file);
-               await DB.sendData(this.databaselink, { url });
+               await DB.sendData(this.databaselink, { url }).then(() =>{
+                  this.isAddLoad = false;
+               });
             } catch (error) {
                console.log(error);
             }
@@ -78,9 +92,11 @@ export default {
          this.$emit('changeShowPreview',false)
          this.$emit('changeimagePreview',"")
          if(this.save){
+            this.isDeleteLoad = true;
             await DB.deleteStorageItem(this.storageLink);
-            await DB.removeData(this.databaselink);
-            console.log('644');
+            await DB.removeData(this.databaselink).then(() =>{
+               this.isDeleteLoad = false;
+            });
          }
       },
       async getContent() {
@@ -146,8 +162,14 @@ button {
   border-radius: 5px;
   width: 150px;
   height: 40px;
+  position: relative;
 }
 .input-wrapper {
   display: flex;
+}
+.load{
+   position: absolute;
+   right: 0;
+   top: 0;
 }
 </style>
