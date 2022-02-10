@@ -7,7 +7,7 @@
          <router-link
             tag="div"
             class="img-wrapper"
-            :to="{path: `films/currentFilm/${indexFilm}`}"
+            :to="{path: `films/${type}/${indexFilm}`,params: {foo: 1}}"
          >
             <img v-show="item.showPreview" :src="item.imagePreview" alt="">
          </router-link>
@@ -28,12 +28,13 @@ import { mapActions } from 'vuex'
 export default {
    props:{
       item: Object,
-      indexFilm: Number
+      indexFilm: Number,
+      type: String
    },
    methods:{
       ...mapActions(['deleteFilmItem']),
       removeFilm(index){
-         this.deleteFilmItem(index);
+         this.deleteFilmItem([index,this.type]);
       }
    }
 }

@@ -1,13 +1,21 @@
-import list from './filmArray'
+import list from './filmArrayCurrent'
+import listFuture from './filmArrayFuture'
 import DB from '../../../firebase/index'
 
 export default{
    mutations: {
       async downloadFilmsType(state, type){
          try{
-            state.currentFilms = await DB.getData(type);
-            if (!state.currentFilms){
-               state.currentFilms = [];
+            if (type === 'films/currentFilms'){
+               state.currentFilms = await DB.getData(type);
+               if (!state.currentFilms) {
+                  state.currentFilms = [];
+               }
+            }else{
+               state.futureFilms = await DB.getData(type);
+               if (!state.futureFilms) {
+                  state.futureFilms = [];
+               }
             }
          } catch(err){
             console.log(err);
@@ -15,41 +23,61 @@ export default{
       },
       async changeFilm(state, array){
          state.currentFilms[array[0]] = array[1];
-         await DB.sendData(`films/currentFilms/${array[0]}`, state.currentFilms[array[0]]);
+         await DB.sendData(`films/${array[2]}s/${array[0]}`, state.currentFilms[array[0]]);
       },
-      async addNewFilm(state,film){
-         let newFilm = film;
-         if (state.currentFilms.length !== 0){
-            newFilm.id = String(state.currentFilms[state.currentFilms.length - 1].id+1);
-         } else newFilm.id = String(state.currentFilms.length);
-         state.currentFilms.push(newFilm);
-         await DB.sendData('films/currentFilms', state.currentFilms);
+      async addNewFilm(state, array){
+         let newFilm = array[0];
+         if (array[1] === 'currentFilm'){
+            if (state.currentFilms.length !== 0) {
+               newFilm.id = String(state.currentFilms[state.currentFilms.length - 1].id + 1);
+            } else newFilm.id = String(state.currentFilms.length);
+            state.currentFilms.push(newFilm);
+            await DB.sendData('films/currentFilms', state.currentFilms);
+         }else{
+            if (state.futureFilms.length !== 0) {
+               newFilm.id = String(state.futureFilms[state.futureFilms.length - 1].id + 1);
+            } else newFilm.id = String(state.futureFilms.length);
+            state.futureFilms.push(newFilm);
+            await DB.sendData('films/futureFilms', state.futureFilms);
+         }
+         
+         
       },
-      async deleteFilm(state,index){
-         state.currentFilms.splice(index, 1);
-         await DB.sendData('films/currentFilms', state.currentFilms);
+      async deleteFilm(state,array){
+         if (array[1] === 'currentFilm'){
+            state.currentFilms.splice(array[0], 1);
+            await DB.sendData('films/currentFilms', state.currentFilms);
+         } else{
+            state.futureFilms.splice(array[0], 1);
+            await DB.sendData('films/futureFilms', state.futureFilms);
+         }
+         
       }
    },
    state: {
-      currentFilms: list.list
+      currentFilms: list.list,
+      futureFilms: listFuture.list
    },
    getters:{
       getCurrentFilms(state){
          return state.currentFilms
       },
+      getFutureFilms(state){
+         return state.futureFilms
+      }
    },
    actions: {
       downloadFilms(context,type){
         context.commit('downloadFilmsType', type);
       },
       saveFilm(context, array){
-         context.commit('changeFilm', array)
+         context.commit('changeFilm', array);
       },
-      newFilm(context, film){
-         context.commit('addNewFilm', film)
+      newFilm(context, array){
+         context.commit('addNewFilm', array)
       },
-      deleteFilmItem(context, index){
-         context.commit('deleteFilm', index)
+      deleteFilmItem(context, array){
+         context.commit('deleteFilm', array)
       }
    },
 }

@@ -42,7 +42,6 @@ export default {
             try {
                const url = await DB.sendImg(this.storageLink, file);
                await DB.sendData(this.databaselink, { url });
-               console.log('65464');
             } catch (error) {
                console.log(error);
             }

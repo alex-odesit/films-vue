@@ -21,7 +21,7 @@
         :imagePreview="film.imagePreview"
         :showPreview="film.showPreview"
         :file="film.file"
-        :databaselink="`films/currentFilms/${index}/imagePreview`"
+        :databaselink="`films/${type}s/${index}/imagePreview`"
         :save="false"
       />
     </div>
@@ -33,7 +33,7 @@
         :isUrl="false"
         :download="true"
         :lists="film.list"
-        :databaseLink="`films/currentFilms/${index}/list`"
+        :databaseLink="`films/${type}s/${index}/list`"
         :index="String(index)"
         @changeList="changeList"
       />
@@ -161,10 +161,13 @@ export default {
     index() {
       return this.$route.params["id"];
     },
+    type(){
+      return this.$route.params["type"];
+    },
     howButton(){
        return this.index !== 'new';
     },
-    ...mapGetters(["getCurrentFilms"]),
+    ...mapGetters(["getCurrentFilms","getFutureFilms"]),
     isActivePopap(){
       return  {
         'acive-popap': this.isPopap
@@ -176,9 +179,15 @@ export default {
     ...mapActions(["downloadFilms","saveFilm","newFilm"]),
     getData() {
       if(this.index !== 'new'){
-         this.downloadFilms("films/currentFilms");
-         this.film = this.getCurrentFilms[this.index];
+        if(this.$route.path.slice(0,9) == '/films/cu'){
+          this.downloadFilms("films/currentFilms");
+          this.film = this.getCurrentFilms[this.index];
+        }else{
+          this.downloadFilms("films/futureFilms");
+          this.film = this.getFutureFilms[this.index];
+        }
       }
+      
     },
     changeFile(file) {
       this.film.file = file;
@@ -194,15 +203,15 @@ export default {
     },
     saveData(){
       if(this.index !== 'new'){
-         this.saveFilm([this.index,this.film]);
+         this.saveFilm([this.index,this.film,this.type]);
       }else{
-         this.newFilm(this.film);
+         this.newFilm([this.film, this.type]);
       }
       
     },
     async resaveData(){
        try{
-         let databaseFilm = await DB.getData(`films/currentFilms/${this.index}`);
+         let databaseFilm = await DB.getData(`films/${this.type}s/${this.index}`);
          if(databaseFilm){
             this.film = databaseFilm;
          }else{

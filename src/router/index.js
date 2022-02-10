@@ -23,8 +23,8 @@ const routes = [
     props: true
   },
   {
-    path: "/films/currentFilm/:id",
-    component: () => import('@/views/FilmEdit'),
+    path: "/films/:type/:id",
+    component: () => import('@/views/FilmEdit')
   },
 ];
 
