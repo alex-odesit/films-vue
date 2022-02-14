@@ -5,17 +5,15 @@
         <div class="img-wrapper">
           <img class="img" :src="item.imagePreview" v-show="item.showPreview" />
           <div class="delete" @click="deleteInList(num)"></div>
-        </div>
-        <button class="btn">
-          Добавить
           <input
             class="input"
             type="file"
             id="file"
             accept="image/*"
             @change="handleFileUpload($event, item)"
+            ref="input"
           />
-        </button>
+        </div>
         <div v-if="isUrl" class="input-wrapper-item">
           <span> URL: </span>
           <input
@@ -72,6 +70,9 @@ export default {
         }
       }
     },
+    data:() =>({
+      onClick:false
+    }),
     deleteInList(id) {
       this.lists.splice(id, 1);
     },
@@ -85,13 +86,29 @@ export default {
         text: "",
       };
       this.lists.push(newObj);
+      this.onClick = true;
+    },
+    test2(){
+      this.$refs.input[this.$refs.input.length-1].click();
+    },
+    test(){
+      if(this.onClick === true){
+        console.log(JSON.stringify(this.$refs.input,null, 2));
+        setTimeout(this.test2,0);
+        this.onClick = false;
+      }
     },
     async getContent() {
       if(this.download && this.index !== 'new'){
         const test  = await DB.getData(this.databaseLink);
-        this.$emit('changeList',test)
+        if(test !== null){
+          this.$emit('changeList',test)
+        }
       }
     },
+  },
+  watch:{
+    lists: 'test'
   },
   mounted(){
     this.getContent();
@@ -102,6 +119,7 @@ export default {
 
 
 <style scoped>
+
 h1 {
   font-weight: 700;
   font-size: 30px;
@@ -208,5 +226,10 @@ h1 {
 }
 .add-item {
   height: 50px;
+}
+input:focus{
+  width: 100%;
+  height: 100%;
+  background-color: #000;
 }
 </style>

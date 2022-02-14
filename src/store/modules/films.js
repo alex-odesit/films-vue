@@ -33,7 +33,7 @@ export default{
          let newFilm = array[0];
          if (array[1] === 'currentFilm'){
             if (state.currentFilms.length !== 0) {
-               newFilm.id = String(state.currentFilms[state.currentFilms.length - 1].id + 1);
+               newFilm.id = String(Number(state.currentFilms[state.currentFilms.length - 1].id) + 1);
             } else newFilm.id = String(state.currentFilms.length);
             state.currentFilms.push(newFilm);
             await DB.sendData('films/currentFilms', state.currentFilms).then(() =>{

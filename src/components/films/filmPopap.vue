@@ -2,14 +2,14 @@
    <div class="wrapper-popap">
       <div class="wrapper-content">
          <span class="title">
-            Вы действительно хотите отменить изменения?
+            {{array[0]}}
          </span>
          <div class="wrapper-button">
             <button @click="noDeleteData">
-               Нет
+               {{array[1]}}
             </button>
             <button @click="deleteData">
-               Отменить изменения
+               {{array[2]}}
             </button>
          </div>
       </div>
@@ -18,6 +18,7 @@
 
 <script>
 export default {
+   props:['array'],
    methods:{
       noDeleteData(){
          this.$emit('noDeleteData');

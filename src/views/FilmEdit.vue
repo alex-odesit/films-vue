@@ -38,6 +38,7 @@
         @changeList="changeList"
       />
     </div>
+
     <div class="wrapper-input wrapper-input-treyler">
       <span> Ссылка на трейлер </span>
       <input
@@ -88,26 +89,27 @@
       </div>
     </div>
     <div class="buttons-wrapper">
-        <button @click="saveData">
-          Сохранить <load v-if="isSave" class="load"/>
-        </button>
+      <button @click="saveData">
+        Сохранить <load v-if="isSave" class="load" />
+      </button>
       <template v-if="howButton">
-         <button @click="resaveDataClick" >
-            Вернуть базовою версию
-         </button>
+        <button @click="resaveDataClick">Вернуть базовою версию</button>
       </template>
       <template v-else>
-          <button @click="resaveDataClick">
-              Не добавлять новый фильм
-          </button>
+        <button @click="resaveDataClick">Не добавлять новый фильм</button>
       </template>
-   </div>
-   <popap 
+    </div>
+    <popap
       @deleteData="resaveData"
       @noDeleteData="resaveDataClick"
       class="popap"
       :class="isActivePopap"
-      />
+      :array="[
+        'Вы действительно хотите отменить изменения?',
+        'Нет',
+        'Отменить изменения',
+      ]"
+    />
   </div>
 </template>
 
@@ -115,11 +117,11 @@
 import { mapActions, mapGetters } from "vuex";
 import oneImage from "../components/addImageOne.vue";
 import BigRow from "@/components/BigRow";
-import popap from "@/components/films/filmPopap"
+import popap from "@/components/films/filmPopap";
 
-import DB from '../../firebase/index';
+import DB from "../../firebase/index";
 
-import load from '../components/Load.vue'
+import load from "../components/Load.vue";
 
 export default {
   components: {
@@ -157,39 +159,37 @@ export default {
       urlMain: "",
     },
     isPopap: false,
-    isSave: false
+    isSave: false,
   }),
   computed: {
     index() {
       return this.$route.params["id"];
     },
-    type(){
+    type() {
       return this.$route.params["type"];
     },
-    howButton(){
-       return this.index !== 'new';
+    howButton() {
+      return this.index !== "new";
     },
-    ...mapGetters(["getCurrentFilms","getFutureFilms"]),
-    isActivePopap(){
-      return  {
-        'acive-popap': this.isPopap
-      }
-      
-    }
+    ...mapGetters(["getCurrentFilms", "getFutureFilms"]),
+    isActivePopap() {
+      return {
+        "acive-popap": this.isPopap,
+      };
+    },
   },
   methods: {
-    ...mapActions(["downloadFilms","saveFilm","newFilm"]),
+    ...mapActions(["downloadFilms", "saveFilm", "newFilm"]),
     getData() {
-      if(this.index !== 'new'){
-        if(this.$route.path.slice(0,9) == '/films/cu'){
+      if (this.index !== "new") {
+        if (this.$route.path.slice(0, 9) == "/films/cu") {
           this.downloadFilms("films/currentFilms");
           this.film = this.getCurrentFilms[this.index];
-        }else{
+        } else {
           this.downloadFilms("films/futureFilms");
           this.film = this.getFutureFilms[this.index];
         }
       }
-      
     },
     changeFile(file) {
       this.film.file = file;
@@ -203,35 +203,36 @@ export default {
     changeList(list) {
       this.film.list = list;
     },
-    saveData(){
+    saveData() {
       this.isSave = true;
-      if(this.index !== 'new'){
-         this.saveFilm([this.index,this.film,this.type]);
-      }else{
-         this.newFilm([this.film, this.type]);
+      if (this.index !== "new") {
+        this.saveFilm([this.index, this.film, this.type]);
+      } else {
+        this.newFilm([this.film, this.type]);
       }
-      
     },
-    async resaveData(){
-       try{
-         let databaseFilm = await DB.getData(`films/${this.type}s/${this.index}`);
-         if(databaseFilm){
-            this.film = databaseFilm;
-         }else{
-            this.$router.push('/films');
-         }
-         this.isPopap = false;
-       }catch(err){
-         console.log(err);
-       }
+    async resaveData() {
+      try {
+        let databaseFilm = await DB.getData(
+          `films/${this.type}s/${this.index}`
+        );
+        if (databaseFilm) {
+          this.film = databaseFilm;
+        } else {
+          this.$router.push("/films");
+        }
+        this.isPopap = false;
+      } catch (err) {
+        console.log(err);
+      }
     },
-    resaveDataClick(){
-      this.isPopap = !this.isPopap?true:false;
-    }
+    resaveDataClick() {
+      this.isPopap = !this.isPopap ? true : false;
+    },
   },
-   mounted() {
-      this.getData();
-   },
+  mounted() {
+    this.getData();
+  },
 };
 </script>
 
@@ -246,92 +247,92 @@ export default {
   span {
     margin-right: 20px;
   }
-  input{
-     width: 300px;
+  input {
+    width: 300px;
   }
 }
-textarea{
-   resize: none;
-   width: 100%;
-   height: 70px;
+textarea {
+  resize: none;
+  width: 100%;
+  height: 70px;
 }
-.wrapper-input-row{
-   margin-top: 30px;
+.wrapper-input-row {
+  margin-top: 30px;
 }
-.wrapper-input-treyler{
-   span{
-      display: block;
-      flex: 0 0 15%;
-   }
-   input{
-      flex: 0 0 85%;
-   }
+.wrapper-input-treyler {
+  span {
+    display: block;
+    flex: 0 0 15%;
+  }
+  input {
+    flex: 0 0 85%;
+  }
 }
 .input-wrapper_checkBox {
-   display: flex;
-   span{
-      margin-right: 50px;
-   }
-   margin-bottom: 40px;
+  display: flex;
+  span {
+    margin-right: 50px;
+  }
+  margin-bottom: 40px;
 }
 .checkBox-wrapper {
-   display: flex;
-   span{
-      margin-right: 3px;
-   }
+  display: flex;
+  span {
+    margin-right: 3px;
+  }
 }
 .input-item {
-   margin-right: 40px;
+  margin-right: 40px;
 }
-.seo-input-wrapper{
-   width: 100%;
+.seo-input-wrapper {
+  width: 100%;
 }
-.seo-wrapper-title{
-   flex: 0 0 100px;
+.seo-wrapper-title {
+  flex: 0 0 100px;
 }
 .seo-wrapper {
-   display: flex;
-   .input-wrapper{
-      display: flex;
-      span{
-         flex: 0 0 100px;
-         text-align: right;
-         margin-right: 10px;
-      }
-      input{
-         flex: 0 1 100%;
-      }
-      textarea{
-         flex: 0 1 100%;
-      }
-   }
+  display: flex;
+  .input-wrapper {
+    display: flex;
+    span {
+      flex: 0 0 100px;
+      text-align: right;
+      margin-right: 10px;
+    }
+    input {
+      flex: 0 1 100%;
+    }
+    textarea {
+      flex: 0 1 100%;
+    }
+  }
 }
 .buttons-wrapper {
-   margin-top: 25px;
-   display: flex;
-   justify-content: center;
-   button{
-      border-radius: 7px;
-      &:first-child{
-         margin-right: 40px;
-      }
-   }
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  button {
+    border-radius: 7px;
+    &:first-child {
+      margin-right: 40px;
+    }
+  }
 }
-.popap{
-   position: absolute;
-   width: 100%;
-   height: 100%;
-   top: 0;
-   left: -100%;
-   z-index: 100;
+.popap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  z-index: 100;
 }
-.acive-popap{
+.acive-popap {
   left: 0;
 }
-button{
+button {
   position: relative;
 }
-.load{
+.load {
   position: absolute;
   top: 0;
   right: 0;

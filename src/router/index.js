@@ -26,6 +26,15 @@ const routes = [
     path: "/films/:type/:id",
     component: () => import('@/views/FilmEdit')
   },
+  {
+    path: "/cinemas",
+    name: "Cinemas",
+    component: () => import("../views/Cinemas")
+  },
+  {
+    path: "/cinemas/cinema/:id",
+    component: () => import("../views/CinemaEdit")
+  },
 ];
 
 const router = new VueRouter({

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import films from "./modules/films"
+import cinemas from "./modules/cinemas"
 
 Vue.use(Vuex);
 
@@ -9,7 +10,8 @@ Vue.use(Vuex);
   mutations: {},
   actions: {},
   modules: {
-    films
+    films,
+    cinemas
   }
 });
 

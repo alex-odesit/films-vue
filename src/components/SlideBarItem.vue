@@ -28,7 +28,7 @@ export default ({
          {name: 'Статистика', url:'/',exact: true},
          {name: 'Банера/Слайдеры', url:'/banners'},
          {name: 'Фильмы', url:'/films'},
-         {name: 'Кинотеатры', url:'/fn'},
+         {name: 'Кинотеатры', url:'/cinemas'},
          {name: 'Новости', url:'/f'},
          {name: 'Акции', url:'/g'},
          {name: 'Страницы', url:'/h'},
