@@ -4,20 +4,25 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-
-
 
 import DB from "../firebase/index";
 DB.boot();
 
 
-library.add(fas, fab);
-Vue.config.productionTip = false;
-Vue.component("fa", FontAwesomeIcon);
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
+
+
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+library.add(faUser, faPowerOff, faPen, faTrash);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 
 

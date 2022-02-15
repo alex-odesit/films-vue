@@ -65,7 +65,9 @@
             @changeList="changeList"
          />
       </div>
-      <rowHalls/>
+      <rowHalls 
+         :cinema="cinema"
+      />
       <div class="seo-wrapper">
       <span class="seo-wrapper-title"> SEO блок </span>
       <div class="seo-input-wrapper">
@@ -140,6 +142,7 @@ export default {
          title: "",
          keywords: "",
          seoDescription: "",
+         
       },
       isSave: false
    }),
@@ -149,6 +152,7 @@ export default {
          if(this.index !== 'new'){
             this.downloadCinemas('cinema')
             this.cinema = this.getCinemas[this.index];
+            console.log(this.getCinemas);
          }
       },
       changeFileLogo(file) {

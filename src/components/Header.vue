@@ -14,9 +14,9 @@
       </div>
     </div>
     <div class="administrator-wrapper">
-      <fa class="font-awesome" :icon="['fas', 'user']" />
+      <font-awesome-icon icon="fa-solid fa-user" class="font-awesome" />
       <span class="administrator"> Администратор </span>
-      <fa class="font-awesome" :icon="['fas', 'power-off']" />
+      <font-awesome-icon icon="fa-solid fa-power-off" class="font-awesome" />
     </div>
   </div>
 </template>
