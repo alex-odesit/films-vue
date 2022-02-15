@@ -66,7 +66,7 @@
          />
       </div>
       <rowHalls 
-         :cinema="cinema"
+         :halls="cinema.halls"
       />
       <div class="seo-wrapper">
       <span class="seo-wrapper-title"> SEO блок </span>
@@ -142,7 +142,13 @@ export default {
          title: "",
          keywords: "",
          seoDescription: "",
-         
+         halls: [
+            {
+               id: 1,
+               name:'первый зал',
+               date: '000000'
+            }
+         ]
       },
       isSave: false
    }),
@@ -151,8 +157,6 @@ export default {
       getData(){
          if(this.index !== 'new'){
             this.downloadCinemas('cinema')
-            this.cinema = this.getCinemas[this.index];
-            console.log(this.getCinemas);
          }
       },
       changeFileLogo(file) {
@@ -183,6 +187,11 @@ export default {
          }else{
             this.saveCinema([this.index, this.cinema]);
          }
+      }
+   },
+   watch:{
+      getCinemas: function(){
+         this.cinema = this.getCinemas[this.index];
       }
    },
    computed:{

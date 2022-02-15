@@ -93,7 +93,6 @@ export default {
     },
     test(){
       if(this.onClick === true){
-        console.log(JSON.stringify(this.$refs.input,null, 2));
         setTimeout(this.test2,0);
         this.onClick = false;
       }

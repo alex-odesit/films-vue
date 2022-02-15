@@ -19,8 +19,15 @@ export default {
                state.list = cinemas;
             }
          });
-         
-         
+      },
+      async addNewCinema(state, cinema) {
+         if (state.list.length !== 0) {
+            cinema.id = String(Number(state.list[state.list.length - 1].id) + 1);
+         } else cinema.id = '0';
+         state.list.push(cinema);
+         await DB.sendData('cinema', state.list).then(() => {
+            router.push({ path: '/cinemas' });
+         })
       },
       async changeCinema(state, array) {
          state.list[array[0]] = array[1];
@@ -28,15 +35,7 @@ export default {
             router.push({ path: '/cinemas' });
          });
       },
-      async addNewCinema(state, cinema){
-         if (state.list.length !== 0) {
-            cinema.id = String(Number(state.list[state.list.length - 1].id) + 1);
-         } else cinema.id = String(state.list.length);
-         state.list.push(cinema);
-         await DB.sendData('cinema', state.list).then(() => {
-            router.push({ path: '/cinemas' });
-         })
-      }
+      
     },
    state: {
       list: listCinemas.listCinemas

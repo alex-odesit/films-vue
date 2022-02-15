@@ -6,25 +6,14 @@
         <div class="hall-item">Название</div>
         <div class="hall-item">Дата создания</div>
       </div>
-      <item/>
-      <div class="hall hall-item-row">
-        <div class="hall-item">Первый зал</div>
-        <div class="hall-item">651651</div>
-        <div class="font-awesome-box">
-          <font-awesome-icon class="font-awesome" icon="fa-solid fa-pen" />
-          <font-awesome-icon class="font-awesome" icon="fa-solid fa-trash" />
-        </div>
-      </div>
-      <div class="hall hall-item-row">
-        <div class="hall-item">Первый зал</div>
-        <div class="hall-item">651651</div>
-        <div class="font-awesome-box">
-          <font-awesome-icon class="font-awesome" icon="fa-solid fa-pen" />
-          <font-awesome-icon class="font-awesome" icon="fa-solid fa-trash" />
-        </div>
-      </div>
+      <item 
+         v-for="(item,index) in halls"
+         :item="item" 
+         :key="index"
+         class="item"
+         :index="index"
+      />
     </div>
-    
   </div>
 </template>
 
@@ -37,7 +26,7 @@ export default {
   components: {
     item
   },
-  props:['cinema']
+  props:['halls']
 };
 </script>
 
@@ -61,12 +50,9 @@ export default {
 .hall {
   display: flex;
   align-items: center;
-  .font-awesome {
-    font-size: 22px;
-  }
   .hall-item {
     padding: 10px;
-    background-color: rgb(156, 156, 156);
+    background-color: rgb(145, 144, 144);
     border: 1px solid #000;
     &:first-child {
       flex: 0 0 40%;
@@ -75,39 +61,18 @@ export default {
       flex: 0 0 50%;
     }
   }
-  &:nth-child(2) {
-    .font-awesome-box {
+}
+.item{
+   &:nth-child(1n){
+      background-color: rgb(187, 186, 186);
+   }
+   &:nth-child(2n){
+      background-color: rgb(221, 221, 221);
+   }
+   &:first-child{
       .font-awesome {
-        &:last-child {
-          display: none;
-        }
+         display: none !important;
       }
-    }
-  }
-}
-
-.hall-item-row {
-  &:nth-child(1n) {
-    .hall-item {
-      background-color: rgb(201, 200, 200);
-    }
-  }
-  &:nth-child(2n) {
-    .hall-item {
-      background-color: rgb(230, 227, 227);
-    }
-  }
-}
-.font-awesome-box {
-  flex: 0 0 10%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  .font-awesome {
-    cursor: pointer;
-    &:first-child {
-      margin-left: 30px;
-    }
-  }
+   }
 }
 </style>

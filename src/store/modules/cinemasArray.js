@@ -27,6 +27,8 @@ const listCinemas = [
       halls: [
          {
             id: 1,
+            name: 'первый зал',
+            date: '000000'
          }
       ]
    },
