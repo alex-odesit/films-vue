@@ -12,7 +12,13 @@
          :key="index"
          class="item"
          :index="index"
+         :cinema="cinema"
+         :halls="halls"
+         @removeHall="removeHall"
       />
+      <button @click="addHall" class="btn">
+        Добавить зал
+      </button>
     </div>
   </div>
 </template>
@@ -21,12 +27,23 @@
 
 <script>
 import item from "../cinemas/HallItem";
+import {mapActions} from 'vuex'
 
 export default {
   components: {
     item
   },
-  props:['halls']
+  props:['halls','cinema','index'],
+  methods:{
+    ...mapActions(['timeSave']),
+    addHall(){
+      this.timeSave(this.cinema);
+      this.$router.push({ path: `/cinemas/cinema/${this.index}/hall/new` });
+    },
+    removeHall(index){
+      this.$emit('removeHall',index);
+    }
+  }
 };
 </script>
 
@@ -44,8 +61,9 @@ export default {
   font-size: 25px;
 }
 .row-box {
-  width: 1000px;
+  width: 850px;
   font-size: 18px;
+  text-align: center;
 }
 .hall {
   display: flex;
@@ -69,10 +87,9 @@ export default {
    &:nth-child(2n){
       background-color: rgb(221, 221, 221);
    }
-   &:first-child{
-      .font-awesome {
-         display: none !important;
-      }
-   }
+}
+.btn{
+  margin: 20px 10% 0px 0px;
+  background-color: rgb(143, 142, 142);
 }
 </style>

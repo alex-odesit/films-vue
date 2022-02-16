@@ -1,7 +1,7 @@
 const listCinemas = [
    {
       id: 0,
-      nameCinema: 'Первый',
+      nameCinema: 'Новый зал',
       fileLogo: {},
       showPreviewLogo: false,
       imagePreviewLogo: '',
@@ -27,7 +27,28 @@ const listCinemas = [
       halls: [
          {
             id: 1,
-            name: 'первый зал',
+            name: 'Новый зал',
+            description: '',
+            imagePreviewChem: '',
+            fileChem: '',
+            showPreviewChem: false,
+            imagePreviewBaner: '',
+            showPreviewBaner: false,
+            fileBaner: '',
+            list: [
+               {
+                  id: 1,
+                  file: "",
+                  showPreview: false,
+                  imagePreview: "",
+                  text: "",
+                  url: "",
+               },
+            ],
+            url: '',
+            title: '',
+            keywords: '',
+            seoDescription: '',
             date: '000000'
          }
       ]

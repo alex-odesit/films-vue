@@ -8,17 +8,38 @@
           {{item.date}}
         </div>
         <div class="font-awesome-box">
-          <font-awesome-icon class="font-awesome" icon="fa-solid fa-pen" />
-          <font-awesome-icon v-if="index !== 0" class="font-awesome" icon="fa-solid fa-trash" />
+          <font-awesome-icon @click="edit" class="font-awesome" icon="fa-solid fa-pen" />
+          <font-awesome-icon @click="remove" v-if="isTrash" class="font-awesome" icon="fa-solid fa-trash" />
         </div>
       </div>
   </div>
 </template>
-<script>
 
+
+
+<script>
+import {mapActions} from 'vuex'
 
 export default {
-  props:['item','index']
+  props:['item','index','cinema','halls'],
+  methods:{
+    ...mapActions(['timeSave']),
+    edit(){
+      this.timeSave(this.cinema);
+      this.$router.push(`/cinemas/cinema/${this.id}/hall/${this.index}`);
+    },
+    remove(){
+      this.$emit('removeHall', this.index);
+    }
+  },
+  computed:{
+    id(){
+      return this.$route.params.id;
+    },
+    isTrash(){
+      return this.halls.length === 1?false:true;
+    }
+  }
 };
 </script>
 

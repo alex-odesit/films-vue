@@ -35,14 +35,42 @@ export default {
             router.push({ path: '/cinemas' });
          });
       },
-      
+      addNewHall(state, array){
+         if (array[1] !== 'new'){
+            array[0].id = String(Number(state.list[array[1]].halls[state.list[array[1]].halls.length - 1].id) + 1);
+         }else{
+            array[0].id = state.timeCinema.halls.length+1;
+         }
+         let date = new Date();
+         let day = date.getDate() < 10 ? '0' + `${date.getDate()}` : date.getDate();
+         let month = date.getMonth() + 1 < 10 ? '0' + `${date.getMonth() + 1}` : date.getMonth() + 1;
+         array[0].date = `${day}.${month}.${date.getFullYear()}`;
+         state.timeCinema.halls.push(array[0]);
+         router.push({ path: `/cinemas/cinema/${array[1]}/edit`});
+      },
+      saveHallItem(state,array){
+         state.timeCinema.halls[array[2]] = array[0];
+         router.push({ path: `/cinemas/cinema/${array[1]}/edit`});
+      },
+      timeSaveItem(state, cinema){
+         state.timeCinema = cinema;
+      },
+      async downloadHallAndCinema(state, link){
+         await DB.getData(link).then((cinema) => {
+            state.timeCinema = cinema;
+         });
+      },
     },
    state: {
-      list: listCinemas.listCinemas
+      list: listCinemas.listCinemas,
+      timeCinema:{}
     },
    getters: { 
       getCinemas(state){
-         return state.list
+         return state.list;
+      },
+      getTimeCinema(state){
+         return state.timeCinema
       }
    },
    actions: {
@@ -57,6 +85,20 @@ export default {
       },
       addCinema(context, cinema){
          context.commit('addNewCinema', cinema);  
+      },
+      addHall(context,array){
+         context.commit('downloadCinemasAll', 'cinema');
+         context.commit('addNewHall', array);
+      },
+      saveHall(context, array){
+         context.commit('downloadCinemasAll', 'cinema');
+         context.commit('saveHallItem', array);
+      },
+      timeSave(context, cinema){
+         context.commit('timeSaveItem', cinema);
+      },
+      downloadHall(context,link){
+         context.commit('downloadHallAndCinema', link);
       }
    },
 }

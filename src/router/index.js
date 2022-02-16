@@ -35,6 +35,15 @@ const routes = [
     path: "/cinemas/cinema/:id",
     component: () => import("../views/CinemaEdit")
   },
+  {
+    path: "/cinemas/cinema/:id/:edit",
+    component: () => import("../views/CinemaEdit")
+  },
+  {
+    path: "/cinemas/cinema/:id/hall/:index",
+    component: () => import("../views/HallEdit")
+  },
+  
 ];
 
 const router = new VueRouter({

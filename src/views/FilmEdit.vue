@@ -23,6 +23,7 @@
         :file="film.file"
         :databaselink="`films/${type}s/${index}/imagePreview`"
         :save="false"
+        :download="true"
       />
     </div>
     <span class="subtitle"> Галерея картинок </span>
@@ -128,7 +129,7 @@ export default {
     oneImage,
     BigRow,
     popap,
-    load
+    load,
   },
   data: () => ({
     film: {
@@ -160,6 +161,7 @@ export default {
     },
     isPopap: false,
     isSave: false,
+    downloadFilm: false,
   }),
   computed: {
     index() {
@@ -178,16 +180,27 @@ export default {
       };
     },
   },
+  watch: {
+    getCurrentFilms: function () {
+      if (this.index !== "new" && this.$route.path.slice(0, 9) == "/films/cu") {
+        this.film = this.getCurrentFilms[this.index];
+      } else if (this.index !== "new" && this.downloadFilm) {
+        this.film = this.getFutureFilms[this.index];
+        this.downloadFilm = false;
+      }
+    },
+  },
   methods: {
     ...mapActions(["downloadFilms", "saveFilm", "newFilm"]),
     getData() {
       if (this.index !== "new") {
         if (this.$route.path.slice(0, 9) == "/films/cu") {
           this.downloadFilms("films/currentFilms");
-          this.film = this.getCurrentFilms[this.index];
+          // this.film = this.getCurrentFilms[this.index];
         } else {
+          this.downloadFilm = true;
           this.downloadFilms("films/futureFilms");
-          this.film = this.getFutureFilms[this.index];
+          // this.film = this.getFutureFilms[this.index];
         }
       }
     },

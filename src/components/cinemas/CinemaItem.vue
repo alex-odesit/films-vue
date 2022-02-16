@@ -9,7 +9,7 @@
             class="img-wrapper"
             :to="`/cinemas/cinema/${index}`"
          >
-            <img v-show="item.showPreviewLogo" :src="item.imagePreviewLogo"  alt="">
+            <img v-show="item.showPreviewBack" :src="item.imagePreviewBack"  alt="">
          </router-link>
       </div>
       <div class="subtitle-wrapper">

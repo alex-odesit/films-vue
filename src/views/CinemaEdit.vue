@@ -31,6 +31,7 @@
             :file="cinema.fileLogo"
             :databaselink="`cinema/${index}/imagePreviewLogo`"
             :save="false"
+            :download="false"
          />
       </div>
       <div class="input-wrapper">
@@ -46,6 +47,7 @@
             :file="cinema.fileBack"
             :databaselink="`cinema/${index}/imagePreviewBack`"
             :save="false"
+            :download="false"
          />
       </div>
       <span class="title">
@@ -58,7 +60,7 @@
          <BigRow
             :isText="false"
             :isUrl="false"
-            :download="true"
+            :download="false"
             :lists="cinema.list"
             :databaseLink="`cinema/${index}/list`"
             :index="String(index)"
@@ -67,36 +69,46 @@
       </div>
       <rowHalls 
          :halls="cinema.halls"
+         :cinema="cinema"
+         :index="index"
+         @removeHall="removeHall"
       />
       <div class="seo-wrapper">
-      <span class="seo-wrapper-title"> SEO блок </span>
-      <div class="seo-input-wrapper">
-        <div class="input-wrapper input-wrapper_URL">
-          <span> URL: </span>
-          <input v-model="cinema.url" placeholder="URL" />
-        </div>
-        <div class="input-wrapper input-wrapper_title">
-          <span> Title: </span>
-          <input v-model="cinema.title" placeholder="Title" />
-        </div>
-        <div class="input-wrapper input-wrapper_words">
-          <span> Keywords: </span>
-          <input v-model="cinema.keywords" placeholder="Keywords" />
-        </div>
-        <div class="input-wrapper input-wrapper_seo-description">
-          <span> Description: </span>
-          <textarea
-            placeholder="seoDescription"
-            v-model="cinema.seoDescription"
-          ></textarea>
-        </div>
+         <span class="seo-wrapper-title"> SEO блок </span>
+         <div class="seo-input-wrapper">
+         <div class="input-wrapper input-wrapper_URL">
+            <span> URL: </span>
+            <input v-model="cinema.url" placeholder="URL" />
+         </div>
+         <div class="input-wrapper input-wrapper_title">
+            <span> Title: </span>
+            <input v-model="cinema.title" placeholder="Title" />
+         </div>
+         <div class="input-wrapper input-wrapper_words">
+            <span> Keywords: </span>
+            <input v-model="cinema.keywords" placeholder="Keywords" />
+         </div>
+         <div class="input-wrapper input-wrapper_seo-description">
+            <span> Description: </span>
+            <textarea
+               placeholder="seoDescription"
+               v-model="cinema.seoDescription"
+            ></textarea>
+         </div>
+         </div>
       </div>
-    </div>
-    <div class="btn-save">
-      <button @click="saveCinemaItem">
-         Сохранить <load v-if="isSave" class="load"/>
-      </button>
-   </div>
+      <div class="btn-save">
+         <button @click="saveCinemaItem">
+            Сохранить <load v-if="isSave" class="load"/>
+         </button>
+      </div>
+      <popap 
+         @deleteData="resaveData"
+         @noDeleteData="resaveDataClick"
+         class="popap"
+         :array="['Вы действительно хотите удалить зал?','Нет','Удалить']"
+         :class="isActivePopap"
+      />
    </div>
 </template>
 
@@ -107,14 +119,16 @@ import { mapGetters, mapActions } from 'vuex'
 import oneImage from "../components/addImageOne.vue";
 import BigRow from "@/components/BigRow";
 import load from '../components/Load.vue';
-import rowHalls from '../components/cinemas/HallRow'
+import rowHalls from '../components/cinemas/HallRow';
+import popap from '../components/films/filmPopap';
 
 export default {
    components:{
       oneImage,
       BigRow,
       load,
-      rowHalls
+      rowHalls,
+      popap
    },
    data:() =>({
       cinema: {
@@ -145,18 +159,53 @@ export default {
          halls: [
             {
                id: 1,
-               name:'первый зал',
+               name:'Новый зал',
+               description:'',
+               imagePreviewChem:'',
+               fileChem:'',
+               showPreviewChem:false,
+               imagePreviewBaner:'',
+               showPreviewBaner:false,
+               fileBaner:'',
+               list: [
+                  {
+                     id: 1,
+                     file: "",
+                     showPreview: false,
+                     imagePreview: "",
+                     text: "",
+                     url: "",
+                  },
+               ],
+               url:'',
+               title:'',
+               keywords:'',
+               seoDescription:'',
                date: '000000'
             }
          ]
       },
-      isSave: false
+      isSave: false,
+      isWatch: false,
+      removeIndex: null,
+      isPopap:false
    }),
    methods:{
       ...mapActions(['downloadCinemas','saveCinema','addCinema']),
       getData(){
-         if(this.index !== 'new'){
-            this.downloadCinemas('cinema')
+         if(this.index !== 'new' && this.edit !== 'edit'){
+            this.isWatch = true;
+            this.downloadCinemas('cinema');
+         } else if(this.edit === 'edit' && this.getTimeCinema.halls){
+            this.cinema = this.getTimeCinema;
+         }else if(this.index !== 'new'){
+            this.isWatch = true;
+            this.downloadCinemas('cinema');
+         } else{
+            let date = new Date();
+            let day = date.getDate() < 10 ? '0' + `${date.getDate()}` : date.getDate();
+            let month = date.getMonth() + 1 < 10 ? '0' + `${date.getMonth() + 1}` : date.getMonth() + 1;
+            this.cinema.halls[0].date =  `${day}.${month}.${date.getFullYear()}`;
          }
       },
       changeFileLogo(file) {
@@ -187,25 +236,46 @@ export default {
          }else{
             this.saveCinema([this.index, this.cinema]);
          }
-      }
+      },
+      removeHall(index){
+         this.removeIndex = index;
+         this.isPopap = true;
+      },
+      resaveData(){
+         this.cinema.halls.splice(this.removeIndex, 1);
+         this.isPopap = false;
+      },
+      resaveDataClick(){
+         this.isPopap = false;
+      },
    },
    watch:{
       getCinemas: function(){
-         this.cinema = this.getCinemas[this.index];
-      }
+         if(this.isWatch){
+            this.cinema = this.getCinemas[this.index];
+            this.isWatch = false;
+         }
+      },
    },
    computed:{
-      ...mapGetters(['getCinemas']),
+      ...mapGetters(['getCinemas','getTimeCinema']),
       index(){
          return this.$route.params.id;
       },
+      edit(){
+         return this.$route.params.edit;
+      },
+      isActivePopap(){
+         return  {
+            'acive-popap': this.isPopap
+         }
+      }
    },
    mounted(){
       this.getData();
    }
 }
 </script>
-
 <style scoped lang="scss">
 
 .wrapper-content {
@@ -256,5 +326,16 @@ textarea{
   position: absolute;
   top: 0;
   right: 0;
+}
+.popap{
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: -100%;
+   z-index: 100;
+}
+.acive-popap{
+  left: 0;
 }
 </style>

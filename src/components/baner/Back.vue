@@ -33,6 +33,7 @@
         :file='file'
         :storageLink='storageLink'
         :databaselink='databaselink'
+        :download="true"
         :save='true' />
       </div>
     </div>

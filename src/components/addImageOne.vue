@@ -100,15 +100,17 @@ export default {
          }
       },
       async getContent() {
-         let imagePreview;
+         if(this.download){
+            let imagePreview;
          
-         if(this.save){
-            imagePreview = (await DB.getData(this.databaselink))?.url;
-         }else imagePreview = await DB.getData(this.databaselink);
-         
-         this.$emit('changeimagePreview', imagePreview);
-         let showPreview = !imagePreview ? false:true;
-         this.$emit('changeShowPreview', showPreview);
+            if(this.save){
+               imagePreview = (await DB.getData(this.databaselink))?.url;
+            }else imagePreview = await DB.getData(this.databaselink);
+            
+            this.$emit('changeimagePreview', imagePreview);
+            let showPreview = !imagePreview ? false:true;
+            this.$emit('changeShowPreview', showPreview);
+         }
     },
    },
    mounted() {
