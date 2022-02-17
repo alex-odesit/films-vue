@@ -3,8 +3,15 @@
     <h1>На главной верх</h1>
     <div class="main-wrapper">
       <p class="size">Размер: 1000х190</p>
-      <BigRow :isText="true" :lists="list" :isUrl='true' />
-
+      <div class="input-check-wrapper" :class="activeFirst">
+        <span @click="showFirstChange"></span>
+        <input type="checkbox" v-model="showFirst">
+      </div>
+      <BigRow 
+        :isText="true" 
+        :lists="list" 
+        :isUrl="true" 
+      />
       <div class="second-row">
         <div class="speed">
           <p>Скорость вращения</p>
@@ -17,7 +24,7 @@
         </div>
         <div class="load-wrapper">
           <button @click="sendDataFirst">Сохранить</button>
-          <load v-if="firstLoad" class="load"/>
+          <load v-if="firstLoad" class="load" />
         </div>
       </div>
     </div>
@@ -28,7 +35,15 @@
       <h1>На главной Новости Акции</h1>
       <div class="main-wrapper">
         <p class="size">Размер: 1000х190</p>
-        <BigRow :isText="false" :lists="listNews" :isUrl='true' />
+        <div class="input-check-wrapper" :class="activeSecond">
+          <span @click="showSecondChange"></span>
+          <input type="checkbox" v-model="showSecond">
+        </div>
+        <BigRow 
+          :isText="false" 
+          :lists="listNews" 
+          :isUrl="true" 
+        />
         <div class="second-row">
           <div class="speed">
             <p>Скорость вращения</p>
@@ -41,7 +56,7 @@
           </div>
           <div class="load-wrapper">
             <button @click="sendDataSecond">Сохранить</button>
-            <load v-if="secondLoad" class="load"/>
+            <load v-if="secondLoad" class="load" />
           </div>
         </div>
       </div>
@@ -54,16 +69,15 @@
 <script>
 import BigRow from "@/components/BigRow";
 import Back from "@/components/baner/Back";
-import load from "../components/Load.vue"
+import load from "../components/Load.vue";
 
 import DB from "./../../firebase/index";
-
 
 export default {
   components: {
     BigRow,
     Back,
-    load
+    load,
   },
   data: () => ({
     list: [
@@ -102,49 +116,95 @@ export default {
     selectFirst: "5",
     selectSecond: "5",
     firstLoad: false,
-    secondLoad:false
+    secondLoad: false,
+    showFirst: false,
+    showSecond: false,
   }),
   methods: {
-    async sendData(array,url,link,speedLink, speed) {
-      await (await DB.deleteStorage(`${url}`));
+    async sendData(array, url, link, speedLink, speed,linkShow,dataShow) {
+      await DB.deleteStorage(`${url}`);
       const newList = [];
       for (const index in array) {
-        array[index].url = await DB.sendImg(`${url}/${index}`, array[index].file);
+        array[index].url = await DB.sendImg(
+          `${url}/${index}`,
+          array[index].file
+        );
         newList.push(array[index]);
       }
       await DB.sendData(link, array);
+      await DB.sendData(speedLink, { speed: speed });
+      await DB.sendData(linkShow,dataShow);
 
-      await DB.sendData(speedLink, {speed: speed});
       return newList;
     },
-    async sendDataFirst(){
-      this.firstLoad = true;
-        await this.sendData(this.list,'images/banners/first','banners/first','banners/firstSpeed',this.selectFirst).then((object)=>{
-          this.list = object;
-          this.firstLoad = false;
-       })
+    showFirstChange(){
+      this.showFirst = this.showFirst?false:true;
     },
-    async sendDataSecond(){
-       this.secondLoad = true;
-       await this.sendData(this.listNews,'images/banners/second','banners/second','banners/secondSpeed',this.selectSecond).then((object) =>{
-         this.listNews = object;
-         this.secondLoad = false;
-       })
+    showSecondChange(){
+      this.showSecond = this.showSecond?false:true;
+    },
+    async sendDataFirst() {
+      this.firstLoad = true;
+      await this.sendData(
+        this.list,
+        "images/banners/first",
+        "banners/first",
+        "banners/firstSpeed",
+        this.selectFirst,
+        'banners/showFirst',
+        this.showFirst
+      ).then((object) => {
+        this.list = object;
+        this.firstLoad = false;
+      });
+    },
+    async sendDataSecond() {
+      this.secondLoad = true;
+      await this.sendData(
+        this.listNews,
+        "images/banners/second",
+        "banners/second",
+        "banners/secondSpeed",
+        this.selectSecond,
+        'banners/showSecond',
+        this.showSecond
+      ).then((object) => {
+        this.listNews = object;
+        this.secondLoad = false;
+      });
     },
     async getContent() {
       try {
-        this.list = (await DB.getArray('banners/first'))?(await DB.getArray('banners/first')):this.list;
-        this.listNews = (await DB.getArray('banners/second'))?(await DB.getArray('banners/second')):this.listNews;
-        this.selectFirst = (await DB.getData('banners/firstSpeed'))? await DB.getData('banners/firstSpeed').then(
-          (result) => result.speed
-        ):this.selectFirst;
-        this.selectSecond = (await DB.getData('banners/secondSpeed'))? await DB.getData('banners/secondSpeed').then(
-          (result) => result.speed
-        ):this.selectSecond;
+        this.showFirst = await DB.getData('banners/showFirst');
+        this.showSecond = await DB.getData('banners/showSecond');
+        this.list = (await DB.getArray("banners/first"))
+          ? await DB.getArray("banners/first")
+          : this.list;
+        this.listNews = (await DB.getArray("banners/second"))
+          ? await DB.getArray("banners/second")
+          : this.listNews;
+        this.selectFirst = (await DB.getData("banners/firstSpeed"))
+          ? await DB.getData("banners/firstSpeed").then(
+              (result) => result.speed
+            )
+          : this.selectFirst;
+        this.selectSecond = (await DB.getData("banners/secondSpeed"))
+          ? await DB.getData("banners/secondSpeed").then(
+              (result) => result.speed
+            )
+          : this.selectSecond;
       } catch (error) {
         console.error(error);
       }
     },
+  },
+  computed:{
+    activeFirst(){
+      return {'active':this.showFirst}
+    },
+    activeSecond(){
+      return {'active':this.showSecond}
+    }
   },
   async beforeMount() {
     await this.getContent();
@@ -154,7 +214,7 @@ export default {
 
 
 
-<style scoped>
+<style scoped lang="scss">
 h1 {
   font-weight: 700;
   font-size: 30px;
@@ -227,6 +287,7 @@ h1 {
   border-radius: 15px;
   padding: 20px;
   margin-bottom: 100px;
+  position: relative;
 }
 .delete {
   width: 25px;
@@ -275,11 +336,48 @@ h1 {
 .speed p {
   margin: 0px 50px 0px 50px;
 }
-.load{
-  /* margin-top: 10px;
-  margin-left: 10px; */
-}
-.load-wrapper{
+.load-wrapper {
   display: flex;
+}
+.input-check-wrapper{
+  position: absolute;
+  right: 30px;
+  top: 20px;
+  input{
+    display: none;
+  }
+  span{
+    display: block;
+    width: 40px;
+    height: 22px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #000;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    &::after{
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      display: block;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      background-color: #fff;
+      border: 1px solid #000;
+      transition: all 0.2s ease;
+    }
+  }
+  &.active{
+    span{
+      background-color: rgb(13, 238, 13);
+      border: 1px solid rgb(13, 238, 13);
+      &::after{
+        left: 20px;
+        border: 1px solid rgb(255, 255, 255);
+      }
+    }
+  }
 }
 </style>

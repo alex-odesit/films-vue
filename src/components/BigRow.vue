@@ -226,9 +226,4 @@ h1 {
 .add-item {
   height: 50px;
 }
-input:focus{
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-}
 </style>

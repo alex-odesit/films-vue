@@ -1,6 +1,6 @@
 <template>
    <div class="wrapper-row">
-      <items  
+      <items
          class="item"
          v-for="(item, index) in getCinemas"
          :key="item.id"
