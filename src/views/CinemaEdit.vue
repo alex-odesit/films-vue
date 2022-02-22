@@ -101,6 +101,9 @@
          <button @click="saveCinemaItem">
             Сохранить <load v-if="isSave" class="load"/>
          </button>
+         <button v-if="isNoSave" @click="goBack">
+            Не добавлять фильм
+         </button>
       </div>
       <popap 
          @deleteData="resaveData"
@@ -188,7 +191,8 @@ export default {
       isSave: false,
       isWatch: false,
       removeIndex: null,
-      isPopap:false
+      isPopap:false,
+      isNoSave: false
    }),
    methods:{
       ...mapActions(['downloadCinemas','saveCinema','addCinema']),
@@ -202,6 +206,7 @@ export default {
             this.isWatch = true;
             this.downloadCinemas('cinema');
          } else{
+            this.isNoSave = true;
             let date = new Date();
             let day = date.getDate() < 10 ? '0' + `${date.getDate()}` : date.getDate();
             let month = date.getMonth() + 1 < 10 ? '0' + `${date.getMonth() + 1}` : date.getMonth() + 1;
@@ -248,6 +253,9 @@ export default {
       resaveDataClick(){
          this.isPopap = false;
       },
+      goBack(){
+         this.$router.push('/cinemas')
+      }
    },
    watch:{
       getCinemas: function(){
@@ -320,6 +328,9 @@ textarea{
    justify-content: center;
    button{
       position: relative;
+      &:last-child{
+         margin-left: 10px;
+      }
    }
 }
 .load{

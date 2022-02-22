@@ -6,6 +6,7 @@
          :key="item.id"
          :index="index"
          :item="item"
+         :length="getCinemas.length"
       />
       <button class="btn" @click="addCinema">
          Добавить

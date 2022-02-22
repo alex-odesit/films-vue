@@ -34,7 +34,11 @@
         </div>
       </div>
     </div>
-    <button @click="addItem" class="add-item">Добавить фото</button>
+    <button @click="addItem" class="add-item">
+      Добавить фото 
+      <input @change="addNewItem($event)" type="file" class="add-item-input" ref="addItem">
+    </button>
+
   </div>
 </template>
 
@@ -77,6 +81,9 @@ export default {
       this.lists.splice(id, 1);
     },
     addItem() {
+      this.$refs.addItem.click();
+    },
+    addNewItem(event){
       const newObj = {
         id: String(Math.random()),
         file: "",
@@ -86,16 +93,7 @@ export default {
         text: "",
       };
       this.lists.push(newObj);
-      this.onClick = true;
-    },
-    test2(){
-      this.$refs.input[this.$refs.input.length-1].click();
-    },
-    test(){
-      if(this.onClick === true){
-        setTimeout(this.test2,0);
-        this.onClick = false;
-      }
+      this.handleFileUpload(event, this.lists[this.lists.length-1]);
     },
     async getContent() {
       if(this.download && this.index !== 'new'){
@@ -105,9 +103,6 @@ export default {
         }
       }
     },
-  },
-  watch:{
-    lists: 'test'
   },
   mounted(){
     this.getContent();
@@ -225,5 +220,9 @@ h1 {
 }
 .add-item {
   height: 50px;
+  position: relative;
+}
+.add-item-input{
+  display: none;
 }
 </style>

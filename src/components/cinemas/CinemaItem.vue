@@ -1,8 +1,7 @@
 <template>
    <div>
       <div class="wrapper">
-         <div class="delete-film" @click="deleteCinema">
-            
+         <div class="delete-film" :class="isDeleteCinema" @click="deleteCinema" >
          </div>
          <router-link
             tag="div"
@@ -35,7 +34,7 @@ import popap from '../films/filmPopap'
 import {mapActions} from 'vuex'
 
 export default {
-   props:['item','index'],
+   props:['item','index','length'],
    components:{
       popap
    },
@@ -44,10 +43,15 @@ export default {
    }),
    computed:{
       isActivePopap(){
-      return  {
-        'acive-popap': this.isPopap
+         return  {
+            'acive-popap': this.isPopap
+         }
+      },
+      isDeleteCinema(){
+         return{
+            'no-delete-cinema': this.length <= 1
+         }
       }
-    }
    },
    methods:{
       ...mapActions(['deleteCinemaItem']),
@@ -123,6 +127,9 @@ export default {
       transform: rotate(-45deg);
       top: 8px;
    }
+}
+.no-delete-cinema{
+   display: none;
 }
 .popap{
    position: absolute;
