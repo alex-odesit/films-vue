@@ -3,6 +3,7 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
+import {i18n} from "./i18n/i18n"
 
 
 import DB from "../firebase/index";
@@ -36,5 +37,6 @@ import "vue2-admin-lte/src/lib/script";
 new Vue({
   router,
   store,
+  i18n,
   render: (h) => h(App),
 }).$mount("#app");
