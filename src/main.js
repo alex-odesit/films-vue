@@ -27,7 +27,6 @@ import "vue2-admin-lte/src/lib/css";
 import "vue2-admin-lte/src/lib/script";
 
 import i18n from "./i18n";
-//testing
 
 new Vue({
   router,
