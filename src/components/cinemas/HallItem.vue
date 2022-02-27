@@ -1,48 +1,57 @@
 <template class="test">
   <div>
     <div class="hall hall-item-row">
-        <div class="hall-item">
-          {{item.name}}
-        </div>
-        <div class="hall-item">
-          {{item.date}}
-        </div>
-        <div class="font-awesome-box">
-          <font-awesome-icon @click="edit" class="font-awesome" icon="fa-solid fa-pen" />
-          <font-awesome-icon @click="remove" v-if="isTrash" class="font-awesome" icon="fa-solid fa-trash" />
-        </div>
+      <div class="hall-item">
+        {{ nameHall}}
       </div>
+      <div class="hall-item">
+        {{ item.date }}
+      </div>
+      <div class="font-awesome-box">
+        <font-awesome-icon
+          @click="edit"
+          class="font-awesome"
+          icon="fa-solid fa-pen"
+        />
+        <font-awesome-icon
+          @click="remove"
+          v-if="isTrash"
+          class="font-awesome"
+          icon="fa-solid fa-trash"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
-
-
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from "vuex";
 
 export default {
-  props:['item','index','cinema','halls'],
-  methods:{
-    ...mapActions(['timeSave']),
-    edit(){
+  props: ["item", "index", "cinema", "halls"],
+  methods: {
+    ...mapActions(["timeSave"]),
+    edit() {
       this.timeSave(this.cinema);
       this.$router.push(`/cinemas/cinema/${this.id}/hall/${this.index}`);
     },
-    remove(){
-      this.$emit('removeHall', this.index);
-    }
+    remove() {
+      this.$emit("removeHall", this.index);
+    },
   },
-  computed:{
-    id(){
+  computed: {
+    id() {
       return this.$route.params.id;
     },
-    isTrash(){
-      return this.halls.length === 1?false:true;
+    isTrash() {
+      return this.halls.length === 1 ? false : true;
+    },
+    nameHall(){
+      return this.$i18n.locale === 'ru'? this.item.ru.name:this.item.uk.name;
     }
-  }
+  },
 };
 </script>
-
 
 <style scoped lang="scss">
 .hall {
@@ -54,10 +63,10 @@ export default {
 .hall-item {
   padding: 10px;
   border: 1px solid #000;
-  &:first-child{
+  &:first-child {
     flex: 0 0 40%;
   }
-  &:nth-child(2){
+  &:nth-child(2) {
     flex: 0 0 50%;
   }
 }
@@ -72,7 +81,7 @@ export default {
 .font-awesome {
   font-size: 22px;
   cursor: pointer;
-  &:first-child{
+  &:first-child {
     margin-left: 30px;
   }
 }

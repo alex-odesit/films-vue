@@ -1,0 +1,22 @@
+{
+  "nameFilm": "Назва фільма",
+  "descriptionFilm": "Опис",
+  "mainPicture":"Головний малюнок",
+  "add":"Додати",
+  "remove":"Видалити",
+  "galleryPictures":"Галерея картинок",
+  "sizePicture":"Розмір: ",
+  "addPhoto":"Додати фото",
+  "linkTreyler":"Посилання на трейлер",
+  "typeFilm":"Тип кіно",
+  "save":"Зберегти",
+  "baseVersion":"Повернути базову версію",
+  "noNewFilm":"Не додавати новий фільм",
+  "nameCinema":"Назва кінотеатру",
+  "ifCInema":"Умови",
+  "abovePhoto":"Фото верхнього банера",
+  "listHallsTitle":"Список залів",
+  "nameHall":"Назва",
+  "dateCreateHall":"Дата створення",
+  "addHall":"Додати зал"
+}

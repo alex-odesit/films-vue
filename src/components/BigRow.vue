@@ -35,17 +35,19 @@
       </div>
     </div>
     <button @click="addItem" class="add-item">
-      Добавить фото 
-      <input @change="addNewItem($event)" type="file" class="add-item-input" ref="addItem">
+      {{ $t('addPhoto') }}
+      <input
+        @change="addNewItem($event)"
+        type="file"
+        class="add-item-input"
+        ref="addItem"
+      />
     </button>
-
   </div>
 </template>
 
-
 <script>
-
-import DB from '../../firebase/index'
+import DB from "../../firebase/index";
 
 export default {
   props: {
@@ -54,7 +56,7 @@ export default {
     isUrl: Boolean,
     download: Boolean,
     databaseLink: String,
-    index:String
+    index: String,
   },
   methods: {
     handleFileUpload(event, item) {
@@ -74,8 +76,8 @@ export default {
         }
       }
     },
-    data:() =>({
-      onClick:false
+    data: () => ({
+      onClick: false,
     }),
     deleteInList(id) {
       this.lists.splice(id, 1);
@@ -83,7 +85,7 @@ export default {
     addItem() {
       this.$refs.addItem.click();
     },
-    addNewItem(event){
+    addNewItem(event) {
       const newObj = {
         id: String(Math.random()),
         file: "",
@@ -93,27 +95,24 @@ export default {
         text: "",
       };
       this.lists.push(newObj);
-      this.handleFileUpload(event, this.lists[this.lists.length-1]);
+      this.handleFileUpload(event, this.lists[this.lists.length - 1]);
     },
     async getContent() {
-      if(this.download && this.index !== 'new'){
-        const test  = await DB.getData(this.databaseLink);
-        if(test !== null){
-          this.$emit('changeList',test)
+      if (this.download && this.index !== "new") {
+        const test = await DB.getData(this.databaseLink);
+        if (test !== null) {
+          this.$emit("changeList", test);
         }
       }
     },
   },
-  mounted(){
+  mounted() {
     this.getContent();
-  }
+  },
 };
 </script>
 
-
-
 <style scoped>
-
 h1 {
   font-weight: 700;
   font-size: 30px;
@@ -222,7 +221,7 @@ h1 {
   height: 50px;
   position: relative;
 }
-.add-item-input{
+.add-item-input {
   display: none;
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <h1>Сквозной банер на заднем фоне</h1>
     <div class="main-wrapper">
       <p class="size">Размер: 2000х3000</p>
@@ -24,50 +23,47 @@
           <label for="two">Просто фон</label>
         </div>
         <oneImage
-        v-if="picked === 'backPhoto'"
-        @changeimagePreview='changeimagePreview' 
-        @changeShowPreview='changeShowPreview' 
-        @changeFile='changeFile' 
-        :imagePreview='imagePreview' 
-        :showPreview='showPreview' 
-        :file='file'
-        :storageLink='storageLink'
-        :databaselink='databaselink'
-        :download="true"
-        :save='true' />
+          v-if="picked === 'backPhoto'"
+          @changeimagePreview="changeimagePreview"
+          @changeShowPreview="changeShowPreview"
+          @changeFile="changeFile"
+          :imagePreview="imagePreview"
+          :showPreview="showPreview"
+          :file="file"
+          :storageLink="storageLink"
+          :databaselink="databaselink"
+          :download="true"
+          :save="true"
+        />
       </div>
     </div>
   </div>
 </template>
 
-
-
-
 <script>
-
 import DB from "../../../firebase/index";
-import oneImage from '../addImageOne.vue'
+import oneImage from "../addImageOne.vue";
 export default {
   name: "Back",
-  components:{
-    oneImage
+  components: {
+    oneImage,
   },
   data: () => ({
     picked: "backPhoto",
     file: {},
     showPreview: false,
     imagePreview: "",
-    storageLink:'images/banners/back',
-    databaselink:'banners/backURL'
+    storageLink: "images/banners/back",
+    databaselink: "banners/backURL",
   }),
   methods: {
-    changeFile(file){
+    changeFile(file) {
       this.file = file;
     },
-    changeShowPreview(bool){
+    changeShowPreview(bool) {
       this.showPreview = bool;
     },
-    changeimagePreview(imagePreview){
+    changeimagePreview(imagePreview) {
       this.imagePreview = imagePreview;
     },
     async backChange() {
@@ -78,9 +74,9 @@ export default {
       //   (result) => result.type
       // );
       // this.download = true;
-      this.picked = (await DB.getData("banners/backType"))?(await DB.getData("banners/backType").then(
-        (result) => result.type
-      )):this.picked;
+      this.picked = (await DB.getData("banners/backType"))
+        ? await DB.getData("banners/backType").then((result) => result.type)
+        : this.picked;
       this.download = true;
     },
   },
@@ -89,10 +85,6 @@ export default {
   },
 };
 </script>
-
-
-
-
 
 <style scoped>
 h1 {

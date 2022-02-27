@@ -1,52 +1,47 @@
 <template>
   <div class="row-wrapper">
-    <h2 class="title">Список залов</h2>
+    <h2 class="title">{{ $t('listHallsTitle') }}</h2>
     <div class="row-box">
       <div class="hall">
-        <div class="hall-item">Название</div>
-        <div class="hall-item">Дата создания</div>
+        <div class="hall-item">{{ $t('nameHall') }}</div>
+        <div class="hall-item">{{ $t('dateCreateHall') }}</div>
       </div>
-      <item 
-         v-for="(item,index) in halls"
-         :item="item" 
-         :key="index"
-         class="item"
-         :index="index"
-         :cinema="cinema"
-         :halls="halls"
-         @removeHall="removeHall"
+      <item
+        v-for="(item, index) in halls"
+        :item="item"
+        :key="index"
+        class="item"
+        :index="index"
+        :cinema="cinema"
+        :halls="halls"
+        @removeHall="removeHall"
       />
-      <button @click="addHall" class="btn">
-        Добавить зал
-      </button>
+      <button @click="addHall" class="btn">{{ $t('addHall') }}</button>
     </div>
   </div>
 </template>
 
-
-
 <script>
 import item from "../cinemas/HallItem";
-import {mapActions} from 'vuex'
+import { mapActions } from "vuex";
 
 export default {
   components: {
-    item
+    item,
   },
-  props:['halls','cinema','index'],
-  methods:{
-    ...mapActions(['timeSave']),
-    addHall(){
+  props: ["halls", "cinema", "index"],
+  methods: {
+    ...mapActions(["timeSave"]),
+    addHall() {
       this.timeSave(this.cinema);
       this.$router.push({ path: `/cinemas/cinema/${this.index}/hall/new` });
     },
-    removeHall(index){
-      this.$emit('removeHall',index);
-    }
-  }
+    removeHall(index) {
+      this.$emit("removeHall", index);
+    },
+  },
 };
 </script>
-
 
 <style scoped lang="scss">
 .row-wrapper {
@@ -80,15 +75,15 @@ export default {
     }
   }
 }
-.item{
-   &:nth-child(1n){
-      background-color: rgb(187, 186, 186);
-   }
-   &:nth-child(2n){
-      background-color: rgb(221, 221, 221);
-   }
+.item {
+  &:nth-child(1n) {
+    background-color: rgb(187, 186, 186);
+  }
+  &:nth-child(2n) {
+    background-color: rgb(221, 221, 221);
+  }
 }
-.btn{
+.btn {
   margin: 20px 10% 0px 0px;
   background-color: rgb(143, 142, 142);
 }
