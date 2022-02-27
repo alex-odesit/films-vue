@@ -1,0 +1,22 @@
+{ 
+  "nameFilm": "Название фильма",
+  "descriptionFilm": "Описание",
+  "mainPicture":"Главная картинка",
+  "add":"Добавить",
+  "remove":"Удалить",
+  "galleryPictures":"Галерея картинок",
+  "sizePicture":"Размер: ",
+  "addPhoto":"Добавить фото",
+  "linkTreyler":"Ссылка на трейлер",
+  "typeFilm":"Тип кино",
+  "save":"Сохранить",
+  "baseVersion":"Вернуть базовою версию",
+  "noNewFilm":"Не добавлять новый фильм",
+  "nameCinema":"Название кинотетра",
+  "ifCInema":"Условия",
+  "abovePhoto":"Фото верхнего баннера",
+  "listHallsTitle":"Список залов",
+  "nameHall":"Название",
+  "dateCreateHall":"Дата создания",
+  "addHall":"Добавить зал"
+}

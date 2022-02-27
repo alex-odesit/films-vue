@@ -5,13 +5,9 @@
       <p class="size">Размер: 1000х190</p>
       <div class="input-check-wrapper" :class="activeFirst">
         <span @click="showFirstChange"></span>
-        <input type="checkbox" v-model="showFirst">
+        <input type="checkbox" v-model="showFirst" />
       </div>
-      <BigRow 
-        :isText="true" 
-        :lists="list" 
-        :isUrl="true" 
-      />
+      <BigRow :isText="true" :lists="list" :isUrl="true" />
       <div class="second-row">
         <div class="speed">
           <p>Скорость вращения</p>
@@ -37,13 +33,9 @@
         <p class="size">Размер: 1000х190</p>
         <div class="input-check-wrapper" :class="activeSecond">
           <span @click="showSecondChange"></span>
-          <input type="checkbox" v-model="showSecond">
+          <input type="checkbox" v-model="showSecond" />
         </div>
-        <BigRow 
-          :isText="false" 
-          :lists="listNews" 
-          :isUrl="true" 
-        />
+        <BigRow :isText="false" :lists="listNews" :isUrl="true" />
         <div class="second-row">
           <div class="speed">
             <p>Скорость вращения</p>
@@ -63,8 +55,6 @@
     </div>
   </div>
 </template>
-
-
 
 <script>
 import BigRow from "@/components/BigRow";
@@ -121,7 +111,7 @@ export default {
     showSecond: false,
   }),
   methods: {
-    async sendData(array, url, link, speedLink, speed,linkShow,dataShow) {
+    async sendData(array, url, link, speedLink, speed, linkShow, dataShow) {
       await DB.deleteStorage(`${url}`);
       const newList = [];
       for (const index in array) {
@@ -133,15 +123,15 @@ export default {
       }
       await DB.sendData(link, array);
       await DB.sendData(speedLink, { speed: speed });
-      await DB.sendData(linkShow,dataShow);
+      await DB.sendData(linkShow, dataShow);
 
       return newList;
     },
-    showFirstChange(){
-      this.showFirst = this.showFirst?false:true;
+    showFirstChange() {
+      this.showFirst = this.showFirst ? false : true;
     },
-    showSecondChange(){
-      this.showSecond = this.showSecond?false:true;
+    showSecondChange() {
+      this.showSecond = this.showSecond ? false : true;
     },
     async sendDataFirst() {
       this.firstLoad = true;
@@ -151,7 +141,7 @@ export default {
         "banners/first",
         "banners/firstSpeed",
         this.selectFirst,
-        'banners/showFirst',
+        "banners/showFirst",
         this.showFirst
       ).then((object) => {
         this.list = object;
@@ -166,7 +156,7 @@ export default {
         "banners/second",
         "banners/secondSpeed",
         this.selectSecond,
-        'banners/showSecond',
+        "banners/showSecond",
         this.showSecond
       ).then((object) => {
         this.listNews = object;
@@ -175,8 +165,8 @@ export default {
     },
     async getContent() {
       try {
-        this.showFirst = await DB.getData('banners/showFirst');
-        this.showSecond = await DB.getData('banners/showSecond');
+        this.showFirst = await DB.getData("banners/showFirst");
+        this.showSecond = await DB.getData("banners/showSecond");
         this.list = (await DB.getArray("banners/first"))
           ? await DB.getArray("banners/first")
           : this.list;
@@ -198,21 +188,19 @@ export default {
       }
     },
   },
-  computed:{
-    activeFirst(){
-      return {'active':this.showFirst}
+  computed: {
+    activeFirst() {
+      return { active: this.showFirst };
     },
-    activeSecond(){
-      return {'active':this.showSecond}
-    }
+    activeSecond() {
+      return { active: this.showSecond };
+    },
   },
   async beforeMount() {
     await this.getContent();
   },
 };
 </script>
-
-
 
 <style scoped lang="scss">
 h1 {
@@ -339,14 +327,14 @@ h1 {
 .load-wrapper {
   display: flex;
 }
-.input-check-wrapper{
+.input-check-wrapper {
   position: absolute;
   right: 30px;
   top: 20px;
-  input{
+  input {
     display: none;
   }
-  span{
+  span {
     display: block;
     width: 40px;
     height: 22px;
@@ -355,8 +343,8 @@ h1 {
     border-radius: 10px;
     transition: all 0.2s ease;
     cursor: pointer;
-    &::after{
-      content: '';
+    &::after {
+      content: "";
       position: absolute;
       width: 18px;
       height: 18px;
@@ -369,11 +357,11 @@ h1 {
       transition: all 0.2s ease;
     }
   }
-  &.active{
-    span{
+  &.active {
+    span {
       background-color: rgb(13, 238, 13);
       border: 1px solid rgb(13, 238, 13);
-      &::after{
+      &::after {
         left: 20px;
         border: 1px solid rgb(255, 255, 255);
       }

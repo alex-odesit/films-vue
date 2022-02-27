@@ -21,8 +21,6 @@
   </div>
 </template>
 
-
-
 <script>
 import DB from "./../../firebase/index";
 
@@ -71,8 +69,6 @@ export default {
   },
 };
 </script>
-
-
 
 <style scoped>
 .header-wrapper {

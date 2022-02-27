@@ -1,60 +1,88 @@
 const listCinemas = [
-   {
+  {
+    ru: {
       id: 0,
-      nameCinema: 'Новый зал',
+      nameCinema: "Новый кинотеатр",
       fileLogo: {},
       showPreviewLogo: false,
-      imagePreviewLogo: '',
-      description: '',
-      if: '',
+      imagePreviewLogo: "",
+      description: "",
+      if: "",
       fileBack: {},
       showPreviewBack: false,
-      imagePreviewBack: '',
+      imagePreviewBack: "",
       list: [
-         {
+        {
+          id: 1,
+          file: "",
+          showPreview: false,
+          imagePreview: "",
+          text: "",
+          url: "",
+        },
+      ],
+      url: "",
+      title: "",
+      keywords: "",
+      seoDescription: "",
+    },
+    uk: {
+      id: 0,
+      nameCinema: "Новий кинотеатр",
+      fileLogo: {},
+      showPreviewLogo: false,
+      imagePreviewLogo: "",
+      description: "",
+      if: "",
+      fileBack: {},
+      showPreviewBack: false,
+      imagePreviewBack: "",
+      list: [
+        {
+          id: 1,
+          file: "",
+          showPreview: false,
+          imagePreview: "",
+          text: "",
+          url: "",
+        },
+      ],
+      url: "",
+      title: "",
+      keywords: "",
+      seoDescription: "",
+    },
+    halls: [
+      {
+        id: 1,
+        name: "Новый зал",
+        description: "",
+        imagePreviewChem: "",
+        fileChem: "",
+        showPreviewChem: false,
+        imagePreviewBaner: "",
+        showPreviewBaner: false,
+        fileBaner: "",
+        list: [
+          {
             id: 1,
             file: "",
             showPreview: false,
             imagePreview: "",
             text: "",
             url: "",
-         },
-      ],
-      url: "",
-      title: "",
-      keywords: "",
-      seoDescription: "",
-      halls: [
-         {
-            id: 1,
-            name: 'Новый зал',
-            description: '',
-            imagePreviewChem: '',
-            fileChem: '',
-            showPreviewChem: false,
-            imagePreviewBaner: '',
-            showPreviewBaner: false,
-            fileBaner: '',
-            list: [
-               {
-                  id: 1,
-                  file: "",
-                  showPreview: false,
-                  imagePreview: "",
-                  text: "",
-                  url: "",
-               },
-            ],
-            url: '',
-            title: '',
-            keywords: '',
-            seoDescription: '',
-            date: '000000'
-         }
-      ]
-   },
-]
+          },
+        ],
+        url: "",
+        title: "",
+        keywords: "",
+        seoDescription: "",
+        date: "000000",
+      },
+    ],
+  },
+];
 
 export default {
-   listCinemas
-}
+  listCinemas,
+};

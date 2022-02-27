@@ -1,19 +1,15 @@
 <template>
   <div id="app">
-    <Main/>
+    <Main />
   </div>
 </template>
 
-
 <script>
-import Main from './loyuots/Main'
+import Main from "./loyuots/Main";
 export default {
-  
-  components:{
-    Main
-  }
-}
+  components: {
+    Main,
+  },
+};
 </script>
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

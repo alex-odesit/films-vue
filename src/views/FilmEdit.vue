@@ -1,72 +1,69 @@
 <template>
   <div class="wrapper-film-edit">
-    <lang
-      :language="language"
-      @changeLang="changeLang"
-    />
+    <lang :language="language" @changeLang="changeLang" />
     <div v-if="language === 'Russian'">
       <div class="wrapper-input">
-        <span> Название фильма </span>
+        <span> {{ $t('nameFilm') }} </span>
         <input
           type="text"
           placeholder="Название фильма"
-          v-model="film.nameFilm"
+          v-model="film.ru.nameFilm"
         />
       </div>
       <div class="wrapper-input">
-        <span> Описание </span>
-        <textarea v-model="film.description" placeholder="Текст"></textarea>
+        <span> {{ $t('descriptionFilm') }} </span>
+        <textarea v-model="film.ru.description" placeholder="Текст"></textarea>
       </div>
       <div class="wrapper-input">
-        <span> Главная картинка </span>
+        <span> {{ $t('mainPicture') }} </span>
         <oneImage
-          @changeimagePreview="changeimagePreview"
-          @changeShowPreview="changeShowPreviewTrue"
-          @changeFile="changeFile"
-          :imagePreview="film.imagePreview"
-          :showPreview="film.showPreview"
-          :file="film.file"
-          :databaselink="`films/${type}s/${index}/imagePreview`"
+          @changeimagePreview="changeimagePreviewRu"
+          @changeShowPreview="changeShowPreviewTrueRu"
+          @changeFile="changeFileRu"
+          :imagePreview="film.ru.imagePreview"
+          :showPreview="film.ru.showPreview"
+          :file="film.ru.file"
+          :databaselink="`films/${type}s/${index}/ru/imagePreview`"
           :save="false"
           :download="true"
         />
       </div>
-      <span class="subtitle"> Галерея картинок </span>
+      <span class="subtitle"> {{ $t('galleryPictures') }} </span>
       <div class="wrapper-input wrapper-input-row">
-        <span> Размер: 1000x190 </span>
+        <span> {{ $t('sizePicture') }} 1000x190 </span>
         <BigRow
           :isText="false"
           :isUrl="false"
           :download="true"
-          :lists="film.list"
-          :databaseLink="`films/${type}s/${index}/list`"
+          :lists="film.ru.list"
+          :databaseLink="`films/${type}s/${index}/ru/list`"
           :index="String(index)"
-          @changeList="changeList"
+          @changeList="changeListRu"
         />
       </div>
 
       <div class="wrapper-input wrapper-input-treyler">
-        <span> Ссылка на трейлер </span>
+        <span> {{ $t('linkTreyler') }} </span>
         <input
           type="text"
           placeholder="Ссылка на видео в youtube"
-          v-model="film.linkTreyler"
+          v-model="film.ru.linkTreyler"
         />
       </div>
       <div class="input-wrapper input-wrapper_checkBox">
-        <span> Тип кино </span>
+        <span> {{ $t('typeFilm') }} </span>
         <div class="checkBox-wrapper">
           <div class="input-item">
             <span> 3D </span>
-            <input type="checkbox" v-model="film.threeD" />
+            <input type="checkbox" v-model="film.ru.threeD" />
           </div>
           <div class="input-item">
             <span> 2D </span>
-            <input type="checkbox" v-model="film.twooD" />
+            <input type="checkbox" v-model="film.ru.twooD" />
           </div>
           <div class="input-item">
             <span> IMAX </span>
-            <input type="checkbox" v-model="film.imax" />
+            <input type="checkbox" v-model="film.ru.imax" />
           </div>
         </div>
       </div>
@@ -75,111 +72,93 @@
         <div class="seo-input-wrapper">
           <div class="input-wrapper input-wrapper_URL">
             <span> URL: </span>
-            <input v-model="film.url" placeholder="URL" />
+            <input v-model="film.ru.url" placeholder="URL" />
           </div>
           <div class="input-wrapper input-wrapper_title">
             <span> Title: </span>
-            <input v-model="film.title" placeholder="Title" />
+            <input v-model="film.ru.title" placeholder="Title" />
           </div>
           <div class="input-wrapper input-wrapper_words">
             <span> Keywords: </span>
-            <input v-model="film.keywords" placeholder="Keywords" />
+            <input v-model="film.ru.keywords" placeholder="Keywords" />
           </div>
           <div class="input-wrapper input-wrapper_seo-description">
             <span> Description: </span>
             <textarea
               placeholder="seoDescription"
-              v-model="film.seoDescription"
+              v-model="film.ru.seoDescription"
             ></textarea>
           </div>
         </div>
       </div>
-      <div class="buttons-wrapper">
-        <button @click="saveData">
-          Сохранить <load v-if="isSave" class="load" />
-        </button>
-        <template v-if="howButton">
-          <button @click="resaveDataClick">Вернуть базовою версию</button>
-        </template>
-        <template v-else>
-          <button @click="resaveDataClick">Не добавлять новый фильм</button>
-        </template>
-      </div>
-      <popap
-        @deleteData="resaveData"
-        @noDeleteData="resaveDataClick"
-        class="popap"
-        :class="isActivePopap"
-        :array="[
-          'Вы действительно хотите отменить изменения?',
-          'Нет',
-          'Отменить изменения',
-        ]"
-      />
     </div>
+
+
+
+
     <div v-if="language === 'Ukraine'">
       <div class="wrapper-input">
-        <span> Название фильма </span>
+        <span> {{ $t('nameFilm') }} </span>
         <input
           type="text"
           placeholder="Название фильма"
-          v-model="film.nameFilm"
+          v-model="film.uk.nameFilm"
         />
       </div>
       <div class="wrapper-input">
-        <span> Описание </span>
-        <textarea v-model="film.description" placeholder="Текст"></textarea>
+        <span> {{ $t('descriptionFilm') }}</span>
+        <textarea v-model="film.uk.description" placeholder="Текст"></textarea>
       </div>
       <div class="wrapper-input">
-        <span> Главная картинка </span>
+        <span> {{ $t('mainPicture') }}</span>
         <oneImage
-          @changeimagePreview="changeimagePreview"
-          @changeShowPreview="changeShowPreviewTrue"
-          @changeFile="changeFile"
-          :imagePreview="film.imagePreview"
-          :showPreview="film.showPreview"
-          :file="film.file"
-          :databaselink="`films/${type}s/${index}/imagePreview`"
+          @changeimagePreview="changeimagePreviewUk"
+          @changeShowPreview="changeShowPreviewTrueUk"
+          @changeFile="changeFileUk"
+          :imagePreview="film.uk.imagePreview"
+          :showPreview="film.uk.showPreview"
+          :file="film.uk.file"
+          :databaselink="`films/${type}s/${index}/uk/imagePreview`"
           :save="false"
           :download="true"
         />
       </div>
-      <span class="subtitle"> Галерея картинок </span>
+      <span class="subtitle"> {{ $t('galleryPictures') }} </span>
       <div class="wrapper-input wrapper-input-row">
-        <span> Размер: 1000x190 </span>
+        <span> {{ $t('sizePicture') }} 1000x190 </span>
         <BigRow
           :isText="false"
           :isUrl="false"
           :download="true"
-          :lists="film.list"
-          :databaseLink="`films/${type}s/${index}/list`"
+          :lists="film.uk.list"
+          :databaseLink="`films/${type}s/${index}/uk/list`"
           :index="String(index)"
-          @changeList="changeList"
+          @changeList="changeListUk"
         />
       </div>
 
       <div class="wrapper-input wrapper-input-treyler">
-        <span> Ссылка на трейлер </span>
+        <span> {{ $t('linkTreyler') }}</span>
         <input
           type="text"
           placeholder="Ссылка на видео в youtube"
-          v-model="film.linkTreyler"
+          v-model="film.uk.linkTreyler"
         />
       </div>
       <div class="input-wrapper input-wrapper_checkBox">
-        <span> Тип кино </span>
+        <span> {{ $t('typeFilm') }} </span>
         <div class="checkBox-wrapper">
           <div class="input-item">
             <span> 3D </span>
-            <input type="checkbox" v-model="film.threeD" />
+            <input type="checkbox" v-model="film.uk.threeD" />
           </div>
           <div class="input-item">
             <span> 2D </span>
-            <input type="checkbox" v-model="film.twooD" />
+            <input type="checkbox" v-model="film.uk.twooD" />
           </div>
           <div class="input-item">
             <span> IMAX </span>
-            <input type="checkbox" v-model="film.imax" />
+            <input type="checkbox" v-model="film.uk.imax" />
           </div>
         </div>
       </div>
@@ -188,34 +167,35 @@
         <div class="seo-input-wrapper">
           <div class="input-wrapper input-wrapper_URL">
             <span> URL: </span>
-            <input v-model="film.url" placeholder="URL" />
+            <input v-model="film.uk.url" placeholder="URL" />
           </div>
           <div class="input-wrapper input-wrapper_title">
             <span> Title: </span>
-            <input v-model="film.title" placeholder="Title" />
+            <input v-model="film.uk.title" placeholder="Title" />
           </div>
           <div class="input-wrapper input-wrapper_words">
             <span> Keywords: </span>
-            <input v-model="film.keywords" placeholder="Keywords" />
+            <input v-model="film.uk.keywords" placeholder="Keywords" />
           </div>
           <div class="input-wrapper input-wrapper_seo-description">
             <span> Description: </span>
             <textarea
               placeholder="seoDescription"
-              v-model="film.seoDescription"
+              v-model="film.uk.seoDescription"
             ></textarea>
           </div>
         </div>
       </div>
-      <div class="buttons-wrapper">
+    </div>
+    <div class="buttons-wrapper">
         <button @click="saveData">
-          Сохранить <load v-if="isSave" class="load" />
+          {{ $t('save') }}  <load v-if="isSave" class="load" />
         </button>
         <template v-if="howButton">
-          <button @click="resaveDataClick">Вернуть базовою версию</button>
+          <button @click="resaveDataClick">{{ $t('baseVersion') }}</button>
         </template>
         <template v-else>
-          <button @click="resaveDataClick">Не добавлять новый фильм</button>
+          <button @click="resaveDataClick">{{ $t('noNewFilm') }}</button>
         </template>
       </div>
       <popap
@@ -229,7 +209,6 @@
           'Отменить изменения',
         ]"
       />
-    </div>
   </div>
 </template>
 
@@ -238,7 +217,7 @@ import { mapActions, mapGetters } from "vuex";
 import oneImage from "../components/addImageOne.vue";
 import BigRow from "@/components/BigRow";
 import popap from "@/components/films/filmPopap";
-import lang from "../components/Lang.vue"
+import lang from "../components/Lang.vue";
 
 import DB from "../../firebase/index";
 
@@ -250,40 +229,70 @@ export default {
     BigRow,
     popap,
     load,
-    lang
+    lang,
   },
   data: () => ({
     film: {
-      id: 1,
-      nameFilm: "новый фильм",
-      description: "",
-      file: {},
-      showPreview: false,
-      imagePreview: "",
-      list: [
-        {
-          id: 1,
-          file: "",
-          showPreview: false,
-          imagePreview: "",
-          text: "",
-          url: "",
-        },
-      ],
-      linkTreyler: "",
-      threeD: false,
-      twooD: false,
-      imax: false,
-      url: "",
-      title: "",
-      keywords: "",
-      seoDescription: "",
-      urlMain: "",
+      ru:{
+        id: 1,
+        nameFilm: "новый фильм",
+        description: "",
+        file: {},
+        showPreview: false,
+        imagePreview: "",
+        list: [
+          {
+            id: 1,
+            file: "",
+            showPreview: false,
+            imagePreview: "",
+            text: "",
+            url: "",
+          },
+        ],
+        linkTreyler: "",
+        threeD: false,
+        twooD: false,
+        imax: false,
+        url: "",
+        title: "",
+        keywords: "",
+        seoDescription: "",
+        urlMain: ""
+      },
+      uk:{
+        id: 1,
+        nameFilm: "новий фільм",
+        description: "",
+        file: {},
+        showPreview: false,
+        imagePreview: "",
+        list: [
+          {
+            id: 1,
+            file: "",
+            showPreview: false,
+            imagePreview: "",
+            text: "",
+            url: "",
+          },
+        ],
+        linkTreyler: "",
+        threeD: false,
+        twooD: false,
+        imax: false,
+        url: "",
+        title: "",
+        keywords: "",
+        seoDescription: "",
+        urlMain: ""
+      }
     },
+      
     isPopap: false,
     isSave: false,
     downloadFilm: false,
-    language:'Russian'
+    language: "Russian",
   }),
   computed: {
     index() {
@@ -306,11 +315,14 @@ export default {
     getCurrentFilms: function () {
       if (this.index !== "new" && this.$route.path.slice(0, 9) == "/films/cu") {
         this.film = this.getCurrentFilms[this.index];
-      } else if (this.index !== "new" && this.downloadFilm) {
+      }
+    },
+    getFutureFilms: function(){
+      if (this.index !== "new" && this.downloadFilm) {
         this.film = this.getFutureFilms[this.index];
         this.downloadFilm = false;
       }
-    },
+    }
   },
   methods: {
     ...mapActions(["downloadFilms", "saveFilm", "newFilm"]),
@@ -324,17 +336,29 @@ export default {
         }
       }
     },
-    changeFile(file) {
-      this.film.file = file;
+    changeFileRu(file) {
+      this.film.ru.file = file;
     },
-    changeShowPreviewTrue(bool) {
-      this.film.showPreview = bool;
+    changeShowPreviewTrueRu(bool) {
+      this.film.ru.showPreview = bool;
     },
-    changeimagePreview(imagePreview) {
-      this.film.imagePreview = imagePreview;
+    changeimagePreviewRu(imagePreview) {
+      this.film.ru.imagePreview = imagePreview;
     },
-    changeList(list) {
-      this.film.list = list;
+    changeListRu(list) {
+      this.film.ru.list = list;
+    },
+    changeFileUk(file) {
+      this.film.uk.file = file;
+    },
+    changeShowPreviewTrueUk(bool) {
+      this.film.uk.showPreview = bool;
+    },
+    changeimagePreviewUk(imagePreview) {
+      this.film.uk.imagePreview = imagePreview;
+    },
+    changeListUk(list) {
+      this.film.uk.list = list;
     },
     saveData() {
       this.isSave = true;
@@ -362,16 +386,15 @@ export default {
     resaveDataClick() {
       this.isPopap = !this.isPopap ? true : false;
     },
-    changeLang(lang){
+    changeLang(lang) {
       this.language = lang;
-    }
+    },
   },
   mounted() {
     this.getData();
   },
 };
 </script>
-
 
 <style scoped lang="scss">
 .wrapper-film-edit {
