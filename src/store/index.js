@@ -3,6 +3,8 @@ import Vuex from "vuex";
 import films from "./modules/films";
 import cinemas from "./modules/cinemas";
 import news from "./modules/news";
+import actions from "./modules/actions";
+
 
 Vue.use(Vuex);
 
@@ -14,9 +16,9 @@ const store = new Vuex.Store({
     films,
     cinemas,
     news,
+    actions
   },
 });
 
-// store.dispatch('initFilmsStore');
 
 export default store;

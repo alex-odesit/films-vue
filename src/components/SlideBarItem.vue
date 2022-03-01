@@ -25,7 +25,7 @@ export default {
       { name: "Фильмы", url: "/films" },
       { name: "Кинотеатры", url: "/cinemas" },
       { name: "Новости", url: "/news" },
-      { name: "Акции", url: "/g" },
+      { name: "Акции", url: "/actions" },
       { name: "Страницы", url: "/h" },
       { name: "Пользователи", url: "/j" },
       { name: "Рассылка", url: "/k" },

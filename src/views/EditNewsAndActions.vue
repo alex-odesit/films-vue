@@ -90,19 +90,19 @@
       <div class="seo-wrapper">
         <span class="seo-wrapper-title"> SEO блок </span>
         <div class="seo-input-wrapper">
-          <div class="input-wrapper input-wrapper_URL">
+          <div class="input-wrapper">
             <span> URL: </span>
             <input v-model="item.ru.url" placeholder="URL" />
           </div>
-          <div class="input-wrapper input-wrapper_title">
+          <div class="input-wrapper">
             <span> Title: </span>
             <input v-model="item.ru.titleSeo" placeholder="Title" />
           </div>
-          <div class="input-wrapper input-wrapper_words">
+          <div class="input-wrapper">
             <span> Keywords: </span>
             <input v-model="item.ru.keywords" placeholder="Keywords" />
           </div>
-          <div class="input-wrapper input-wrapper_seo-description">
+          <div class="input-wrapper">
             <span> Description: </span>
             <textarea
               placeholder="seoDescription"
@@ -200,19 +200,19 @@
       <div class="seo-wrapper">
         <span class="seo-wrapper-title"> SEO блок </span>
         <div class="seo-input-wrapper">
-          <div class="input-wrapper input-wrapper_URL">
+          <div class="input-wrapper">
             <span> URL: </span>
             <input v-model="item.uk.url" placeholder="URL" />
           </div>
-          <div class="input-wrapper input-wrapper_title">
+          <div class="input-wrapper">
             <span> Title: </span>
             <input v-model="item.uk.titleSeo" placeholder="Title" />
           </div>
-          <div class="input-wrapper input-wrapper_words">
+          <div class="input-wrapper">
             <span> Keywords: </span>
             <input v-model="item.uk.keywords" placeholder="Keywords" />
           </div>
-          <div class="input-wrapper input-wrapper_seo-description">
+          <div class="input-wrapper">
             <span> Description: </span>
             <textarea
               placeholder="seoDescription"
@@ -273,7 +273,7 @@ export default {
     oneImage,
     BigRow,
     popap,
-    load
+    load,
   },
   computed: {
     activeStatusRU() {
@@ -299,10 +299,17 @@ export default {
     isNew() {
       return this.index === "new" ? false : true;
     },
-    ...mapGetters(["getNewsRow"]),
+    ...mapGetters(["getNewsRow", "getActionsRow"]),
   },
   methods: {
-    ...mapActions(["addNew", "getNews", "saveItem"]),
+    ...mapActions([
+      "addNew",
+      "getNews",
+      "saveItem",
+      "saveItemAction",
+      "addNewAction",
+      "getActions",
+    ]),
     showRU() {
       this.item.ru.status = this.item.ru.status ? false : true;
     },
@@ -337,22 +344,24 @@ export default {
       this.item.uk.list = list;
     },
     async resaveData() {
-       if(this.currentPage === "news"){
-          await DB.getData(`news/${this.index}`).then((newItem)=>{
-             this.item = newItem;
-             this.isPopap = false;
-          })
-       }
+      await DB.getData(`${this.currentPage}/${this.index}`).then((newItem) => {
+        this.item = newItem;
+        this.isPopap = false;
+      });
     },
-    baseVersion(){
-       this.isPopap = this.isPopap ? false : true;
+    baseVersion() {
+      this.isPopap = this.isPopap ? false : true;
     },
     saveData() {
       this.isSave = true;
-      if (this.isNew) {
+      if (this.isNew && this.currentPage === "news") {
         this.saveItem([this.item, this.index, "news"]);
       } else if (this.currentPage === "news") {
         this.addNew([this.item, "news"]);
+      } else if (this.isNew && this.currentPage !== "news") {
+        this.saveItemAction([this.item, this.index, "actions"]);
+      } else {
+        this.addNewAction([this.item, "actions"]);
       }
     },
     getData() {
@@ -360,18 +369,31 @@ export default {
         if (this.currentPage === "news") {
           this.getNews("news");
           this.downloadNews = true;
+        } else {
+          this.getActions("actions");
+          this.downloadActions = true;
         }
       }
     },
-    noAddNew(){
-       this.$router.push('/news')
-    }
+    noAddNew() {
+      if (this.currentPage === "news") {
+        this.$router.push("/news");
+      } else {
+        this.$router.push("/actions");
+      }
+    },
   },
   watch: {
     getNewsRow: function () {
       if (this.downloadNews) {
         this.item = this.getNewsRow[this.index];
         this.downloadNews = false;
+      }
+    },
+    getActionsRow: function () {
+      if (this.downloadActions) {
+        this.item = this.getActionsRow[this.index];
+        this.downloadActions = false;
       }
     },
   },
@@ -430,6 +452,7 @@ export default {
     isPopap: false,
     downloadNews: false,
     isSave: false,
+    downloadActions: false,
   }),
   mounted() {
     this.getData();
@@ -546,7 +569,7 @@ input {
   justify-content: center;
   margin-top: 50px;
   button {
-     position: relative;
+    position: relative;
     &:first-child {
       margin-right: 40px;
     }

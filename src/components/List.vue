@@ -63,12 +63,12 @@ export default {
     indexDelete: null,
   }),
   methods: {
-    ...mapActions(["deleteNew"]),
+    ...mapActions(["deleteNew", "deleteAction"]),
     edit(index) {
       if (this.$router.history.current.fullPath === "/news") {
         this.$router.push(`/news/edit/${index}`);
       } else {
-        console.log("no ready");
+        this.$router.push(`/actions/edit/${index}`);
       }
     },
     addItem() {
@@ -77,6 +77,9 @@ export default {
     deleteData() {
       if (this.type === "news") {
         this.deleteNew(this.indexDelete);
+        this.isPopap = false;
+      } else {
+        this.deleteAction(this.indexDelete);
         this.isPopap = false;
       }
     },

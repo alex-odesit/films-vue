@@ -51,6 +51,14 @@ const routes = [
     path: "/news/edit/:id",
     component: () => import("../views/EditNewsAndActions"),
   },
+  {
+    path: "/actions",
+    component: () => import("../views/Actions"),
+  },
+  {
+    path: "/actions/edit/:id",
+    component: () => import("../views/EditNewsAndActions"),
+  },
 ];
 
 const router = new VueRouter({
