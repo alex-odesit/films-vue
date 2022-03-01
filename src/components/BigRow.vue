@@ -76,9 +76,6 @@ export default {
         }
       }
     },
-    data: () => ({
-      onClick: false,
-    }),
     deleteInList(id) {
       this.lists.splice(id, 1);
     },
@@ -86,16 +83,18 @@ export default {
       this.$refs.addItem.click();
     },
     addNewItem(event) {
-      const newObj = {
-        id: String(Math.random()),
-        file: "",
-        showPreview: false,
-        imagePreview: "",
-        URL: "",
-        text: "",
-      };
-      this.lists.push(newObj);
-      this.handleFileUpload(event, this.lists[this.lists.length - 1]);
+      if(event.target.files[0]){
+        const newObj = {
+          id: String(Math.random()),
+          file: "",
+          showPreview: false,
+          imagePreview: "",
+          URL: "",
+          text: "",
+        };
+        this.lists.push(newObj);
+        this.handleFileUpload(event, this.lists[this.lists.length - 1]);
+      }
     },
     async getContent() {
       if (this.download && this.index !== "new") {

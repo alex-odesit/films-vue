@@ -3,7 +3,7 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
-import {i18n} from "./i18n/i18n"
+// import {i18n} from "./i18n/i18n"
 
 import DB from "../firebase/index";
 DB.boot();
@@ -28,6 +28,7 @@ import "vue2-admin-lte/src/lib/css";
 import "vue2-admin-lte/src/lib/script";
 
 import i18n from "./i18n";
+
 
 new Vue({
   router,

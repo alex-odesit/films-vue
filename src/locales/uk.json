@@ -18,5 +18,9 @@
   "listHallsTitle":"Список залів",
   "nameHall":"Назва",
   "dateCreateHall":"Дата створення",
-  "addHall":"Додати зал"
+  "addHall":"Додати зал",
+  "nameNews":"Назва новини",
+  "DatePublication":"Дата публікації",
+  "linkVideo":"Посилання на відео",
+  "noAddNew":"Не додавати"
 }

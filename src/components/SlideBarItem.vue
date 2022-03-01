@@ -24,7 +24,7 @@ export default {
       { name: "Банера/Слайдеры", url: "/banners" },
       { name: "Фильмы", url: "/films" },
       { name: "Кинотеатры", url: "/cinemas" },
-      { name: "Новости", url: "/f" },
+      { name: "Новости", url: "/news" },
       { name: "Акции", url: "/g" },
       { name: "Страницы", url: "/h" },
       { name: "Пользователи", url: "/j" },

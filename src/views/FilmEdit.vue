@@ -3,7 +3,7 @@
     <lang :language="language" @changeLang="changeLang" />
     <div v-if="language === 'Russian'">
       <div class="wrapper-input">
-        <span> {{ $t('nameFilm') }} </span>
+        <span> {{ $t("nameFilm") }} </span>
         <input
           type="text"
           placeholder="Название фильма"
@@ -11,11 +11,11 @@
         />
       </div>
       <div class="wrapper-input">
-        <span> {{ $t('descriptionFilm') }} </span>
+        <span> {{ $t("descriptionFilm") }} </span>
         <textarea v-model="film.ru.description" placeholder="Текст"></textarea>
       </div>
       <div class="wrapper-input">
-        <span> {{ $t('mainPicture') }} </span>
+        <span> {{ $t("mainPicture") }} </span>
         <oneImage
           @changeimagePreview="changeimagePreviewRu"
           @changeShowPreview="changeShowPreviewTrueRu"
@@ -28,9 +28,9 @@
           :download="true"
         />
       </div>
-      <span class="subtitle"> {{ $t('galleryPictures') }} </span>
+      <span class="subtitle"> {{ $t("galleryPictures") }} </span>
       <div class="wrapper-input wrapper-input-row">
-        <span> {{ $t('sizePicture') }} 1000x190 </span>
+        <span> {{ $t("sizePicture") }} 1000x190 </span>
         <BigRow
           :isText="false"
           :isUrl="false"
@@ -43,7 +43,7 @@
       </div>
 
       <div class="wrapper-input wrapper-input-treyler">
-        <span> {{ $t('linkTreyler') }} </span>
+        <span> {{ $t("linkTreyler") }} </span>
         <input
           type="text"
           placeholder="Ссылка на видео в youtube"
@@ -51,7 +51,7 @@
         />
       </div>
       <div class="input-wrapper input-wrapper_checkBox">
-        <span> {{ $t('typeFilm') }} </span>
+        <span> {{ $t("typeFilm") }} </span>
         <div class="checkBox-wrapper">
           <div class="input-item">
             <span> 3D </span>
@@ -93,12 +93,9 @@
       </div>
     </div>
 
-
-
-
     <div v-if="language === 'Ukraine'">
       <div class="wrapper-input">
-        <span> {{ $t('nameFilm') }} </span>
+        <span> {{ $t("nameFilm") }} </span>
         <input
           type="text"
           placeholder="Название фильма"
@@ -106,11 +103,11 @@
         />
       </div>
       <div class="wrapper-input">
-        <span> {{ $t('descriptionFilm') }}</span>
+        <span> {{ $t("descriptionFilm") }}</span>
         <textarea v-model="film.uk.description" placeholder="Текст"></textarea>
       </div>
       <div class="wrapper-input">
-        <span> {{ $t('mainPicture') }}</span>
+        <span> {{ $t("mainPicture") }}</span>
         <oneImage
           @changeimagePreview="changeimagePreviewUk"
           @changeShowPreview="changeShowPreviewTrueUk"
@@ -123,9 +120,9 @@
           :download="true"
         />
       </div>
-      <span class="subtitle"> {{ $t('galleryPictures') }} </span>
+      <span class="subtitle"> {{ $t("galleryPictures") }} </span>
       <div class="wrapper-input wrapper-input-row">
-        <span> {{ $t('sizePicture') }} 1000x190 </span>
+        <span> {{ $t("sizePicture") }} 1000x190 </span>
         <BigRow
           :isText="false"
           :isUrl="false"
@@ -138,7 +135,7 @@
       </div>
 
       <div class="wrapper-input wrapper-input-treyler">
-        <span> {{ $t('linkTreyler') }}</span>
+        <span> {{ $t("linkTreyler") }}</span>
         <input
           type="text"
           placeholder="Ссылка на видео в youtube"
@@ -146,7 +143,7 @@
         />
       </div>
       <div class="input-wrapper input-wrapper_checkBox">
-        <span> {{ $t('typeFilm') }} </span>
+        <span> {{ $t("typeFilm") }} </span>
         <div class="checkBox-wrapper">
           <div class="input-item">
             <span> 3D </span>
@@ -188,27 +185,27 @@
       </div>
     </div>
     <div class="buttons-wrapper">
-        <button @click="saveData">
-          {{ $t('save') }}  <load v-if="isSave" class="load" />
-        </button>
-        <template v-if="howButton">
-          <button @click="resaveDataClick">{{ $t('baseVersion') }}</button>
-        </template>
-        <template v-else>
-          <button @click="resaveDataClick">{{ $t('noNewFilm') }}</button>
-        </template>
-      </div>
-      <popap
-        @deleteData="resaveData"
-        @noDeleteData="resaveDataClick"
-        class="popap"
-        :class="isActivePopap"
-        :array="[
-          'Вы действительно хотите отменить изменения?',
-          'Нет',
-          'Отменить изменения',
-        ]"
-      />
+      <button @click="saveData">
+        {{ $t("save") }} <load v-if="isSave" class="load" />
+      </button>
+      <template v-if="howButton">
+        <button @click="resaveDataClick">{{ $t("baseVersion") }}</button>
+      </template>
+      <template v-else>
+        <button @click="resaveDataClick">{{ $t("noNewFilm") }}</button>
+      </template>
+    </div>
+    <popap
+      @deleteData="resaveData"
+      @noDeleteData="resaveDataClick"
+      class="popap"
+      :class="isActivePopap"
+      :array="[
+        'Вы действительно хотите отменить изменения?',
+        'Нет',
+        'Отменить изменения',
+      ]"
+    />
   </div>
 </template>
 
@@ -233,7 +230,7 @@ export default {
   },
   data: () => ({
     film: {
-      ru:{
+      ru: {
         id: 1,
         nameFilm: "новый фильм",
         description: "",
@@ -258,9 +255,9 @@ export default {
         title: "",
         keywords: "",
         seoDescription: "",
-        urlMain: ""
+        urlMain: "",
       },
-      uk:{
+      uk: {
         id: 1,
         nameFilm: "новий фільм",
         description: "",
@@ -285,10 +282,10 @@ export default {
         title: "",
         keywords: "",
         seoDescription: "",
-        urlMain: ""
-      }
+        urlMain: "",
+      },
     },
-      
+
     isPopap: false,
     isSave: false,
     downloadFilm: false,
@@ -317,12 +314,12 @@ export default {
         this.film = this.getCurrentFilms[this.index];
       }
     },
-    getFutureFilms: function(){
+    getFutureFilms: function () {
       if (this.index !== "new" && this.downloadFilm) {
         this.film = this.getFutureFilms[this.index];
         this.downloadFilm = false;
       }
-    }
+    },
   },
   methods: {
     ...mapActions(["downloadFilms", "saveFilm", "newFilm"]),

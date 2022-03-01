@@ -132,19 +132,19 @@
       <div class="seo-wrapper">
         <span class="seo-wrapper-title"> SEO блок </span>
         <div class="seo-input-wrapper">
-          <div class="input-wrapper input-wrapper_URL">
+          <div class="input-wrapper">
             <span> URL: </span>
             <input v-model="cinema.ru.url" placeholder="URL" />
           </div>
-          <div class="input-wrapper input-wrapper_title">
+          <div class="input-wrapper">
             <span> Title: </span>
             <input v-model="cinema.ru.title" placeholder="Title" />
           </div>
-          <div class="input-wrapper input-wrapper_words">
+          <div class="input-wrapper">
             <span> Keywords: </span>
             <input v-model="cinema.ru.keywords" placeholder="Keywords" />
           </div>
-          <div class="input-wrapper input-wrapper_seo-description">
+          <div class="input-wrapper">
             <span> Description: </span>
             <textarea
               placeholder="seoDescription"
@@ -159,19 +159,19 @@
       <div class="seo-wrapper">
         <span class="seo-wrapper-title"> SEO блок </span>
         <div class="seo-input-wrapper">
-          <div class="input-wrapper input-wrapper_URL">
+          <div class="input-wrapper">
             <span> URL: </span>
             <input v-model="cinema.uk.url" placeholder="URL" />
           </div>
-          <div class="input-wrapper input-wrapper_title">
+          <div class="input-wrapper">
             <span> Title: </span>
             <input v-model="cinema.uk.title" placeholder="Title" />
           </div>
-          <div class="input-wrapper input-wrapper_words">
+          <div class="input-wrapper">
             <span> Keywords: </span>
             <input v-model="cinema.uk.keywords" placeholder="Keywords" />
           </div>
-          <div class="input-wrapper input-wrapper_seo-description">
+          <div class="input-wrapper">
             <span> Description: </span>
             <textarea
               placeholder="seoDescription"
