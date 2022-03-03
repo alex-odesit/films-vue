@@ -4,6 +4,7 @@ import films from "./modules/films";
 import cinemas from "./modules/cinemas";
 import news from "./modules/news";
 import actions from "./modules/actions";
+import pages from "./modules/pages";
 
 
 Vue.use(Vuex);
@@ -16,7 +17,8 @@ const store = new Vuex.Store({
     films,
     cinemas,
     news,
-    actions
+    actions,
+    pages
   },
 });
 

@@ -22,5 +22,6 @@
   "nameNews":"Назва новини",
   "DatePublication":"Дата публікації",
   "linkVideo":"Посилання на відео",
-  "noAddNew":"Не додавати"
+  "noAddNew":"Не додавати",
+  "name":"Назва"
 }

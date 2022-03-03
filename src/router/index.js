@@ -59,6 +59,22 @@ const routes = [
     path: "/actions/edit/:id",
     component: () => import("../views/EditNewsAndActions"),
   },
+  {
+    path: "/pages",
+    component: () => import("../views/Pages"),
+  },
+  {
+    path: "/pages/mainPage/:id",
+    component: () => import("../views/pages/MainPage"),
+  },
+  {
+    path: "/pages/edit/:id",
+    component: () => import("../views/pages/PageEdit"),
+  },
+  {
+    path: "/pages/contacts/:id",
+    component: () => import("../views/pages/Contacts"),
+  },
 ];
 
 const router = new VueRouter({

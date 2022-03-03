@@ -32,6 +32,7 @@
             @click="deleteItem(index)"
             class="font-awesome"
             icon="fa-solid fa-trash"
+            v-if="type !== 'pages' || index > 6"
           />
         </div>
       </div>
@@ -63,24 +64,43 @@ export default {
     indexDelete: null,
   }),
   methods: {
-    ...mapActions(["deleteNew", "deleteAction"]),
+    ...mapActions(["deleteNew", "deleteAction", "deletePage"]),
     edit(index) {
-      if (this.$router.history.current.fullPath === "/news") {
+      if (this.type === "news") {
         this.$router.push(`/news/edit/${index}`);
-      } else {
+      } else if (this.type === "actions") {
         this.$router.push(`/actions/edit/${index}`);
+      } else {
+        switch (true) {
+          case index == 0:
+            this.$router.push(`/pages/mainPage/${index}`);
+            break;
+          case index != 6 && index > 0:
+            this.$router.push(`/pages/edit/${index}`);
+            break;
+          case index == 6:
+            this.$router.push(`/pages/contacts/${index}`);
+            break;
+        }
       }
     },
     addItem() {
       this.$emit("addItem");
     },
     deleteData() {
-      if (this.type === "news") {
-        this.deleteNew(this.indexDelete);
-        this.isPopap = false;
-      } else {
-        this.deleteAction(this.indexDelete);
-        this.isPopap = false;
+      switch (this.type) {
+        case "news":
+          this.deleteNew(this.indexDelete);
+          this.isPopap = false;
+          break;
+        case "actions":
+          this.deleteAction(this.indexDelete);
+          this.isPopap = false;
+          break;
+        case "pages":
+          this.deletePage(this.indexDelete);
+          this.isPopap = false;
+          break;
       }
     },
     noDeleteData() {
